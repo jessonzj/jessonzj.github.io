@@ -6,19 +6,33 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Hello World | 张杰个人博客</title>
+  <title>Spark-WC源码分析 | 张杰个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+  <meta name="description" content="代码实现123456789101112object WordCount &amp;#123;  def main(args: Array[String]): Unit &#x3D; &amp;#123;    val conf &#x3D; new SparkConf ().setAppName(&quot;word-count&quot;).setMaster(&quot;local&quot;)    val sc &#x3D; new SparkContext(conf)">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://yoursite.com/2020/03/05/hello-world/index.html">
+<meta property="og:title" content="Spark-WC源码分析">
+<meta property="og:url" content="http://yoursite.com/2020/03/05/Spark-WC%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/index.html">
 <meta property="og:site_name" content="张杰个人博客">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:description" content="代码实现123456789101112object WordCount &amp;#123;  def main(args: Array[String]): Unit &#x3D; &amp;#123;    val conf &#x3D; new SparkConf ().setAppName(&quot;word-count&quot;).setMaster(&quot;local&quot;)    val sc &#x3D; new SparkContext(conf)">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-03-05T04:54:45.174Z">
-<meta property="article:modified_time" content="2020-03-05T06:25:41.016Z">
+<meta property="og:image" content="http://yoursite.com/2020/03/05/Spark-WC%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/image-20200305172743177.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/05/Spark-WC%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/image-20200305175336401.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/05/Spark-WC%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/image-20200305175425998.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/05/Spark-WC%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/image-20200305175729912.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/05/Spark-WC%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/image-20200305192728338.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/05/Spark-WC%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/image-20200305181357322.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/05/Spark-WC%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/image-20200305184029637.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/05/Spark-WC%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/image-20200305184255179.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/05/Spark-WC%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/image-20200305184920913.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/05/Spark-WC%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/image-20200305185839209.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/05/Spark-WC%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/image-20200305193321010.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/05/Spark-WC%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/image-20200305194322014.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/05/Spark-WC%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/image-20200305194619453.png">
+<meta property="article:published_time" content="2020-03-05T08:18:19.337Z">
+<meta property="article:modified_time" content="2020-03-05T12:15:19.958Z">
 <meta property="article:author" content="张杰">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2020/03/05/Spark-WC%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/image-20200305172743177.png">
   
     <link rel="alternative" href="/atom.xml" title="张杰个人博客" type="application/atom+xml">
   
@@ -192,39 +206,113 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-hello-world" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-Spark-WC源码分析" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Hello World
+      Spark-WC源码分析
     </h1>
   
 
         
-        <a href="/2020/03/05/hello-world/" class="archive-article-date">
-  	<time datetime="2020-03-05T04:54:45.174Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-05</time>
+        <a href="/2020/03/05/Spark-WC%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" class="archive-article-date">
+  	<time datetime="2020-03-05T08:18:19.337Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-05</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+        <h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">WordCount</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">main</span></span>(args: <span class="type">Array</span>[<span class="type">String</span>]): <span class="type">Unit</span> = &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> conf = <span class="keyword">new</span> <span class="type">SparkConf</span> ().setAppName(<span class="string">"word-count"</span>).setMaster(<span class="string">"local"</span>)</span><br><span class="line">    <span class="keyword">val</span> sc = <span class="keyword">new</span> <span class="type">SparkContext</span>(conf)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> resRDD = sc.textFile(<span class="string">"data/testData.txt"</span>)</span><br><span class="line">      .flatMap(_.split(<span class="string">" "</span>)).map((_, <span class="number">1</span>)).reduceByKey(_ + _)</span><br><span class="line">    resRDD.foreach(println)</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+<h2 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h2><ul>
+<li><h3 id="sc-textFile-方法"><a href="#sc-textFile-方法" class="headerlink" title="sc.textFile() 方法"></a>sc.textFile() 方法</h3><blockquote>
+<p>生成HadoopRDD对象</p>
+<p><img src="/2020/03/05/Spark-WC%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/image-20200305172743177.png" alt="image-20200305172743177"></p>
+</blockquote>
+<h4 id="HadoopRDD主要方法"><a href="#HadoopRDD主要方法" class="headerlink" title="HadoopRDD主要方法"></a>HadoopRDD主要方法</h4></li>
+</ul>
+<blockquote>
+<p>Dependency指向Nil，没有前置依赖</p>
+</blockquote>
+<ul>
+<li><h4 id="getPartitions-方法"><a href="#getPartitions-方法" class="headerlink" title="getPartitions()方法"></a>getPartitions()方法</h4><blockquote>
+<p>通过InputFormat获取分片的个数，即为分区个数</p>
+</blockquote>
+</li>
+<li><h4 id="compute-方法"><a href="#compute-方法" class="headerlink" title="compute()方法"></a>compute()方法</h4><blockquote>
+<p>传入Partition、TaskContext,返回一个InterruptibleIterator迭代器,内部实现中通过InputFormat来获得RecordReader从而决定读取的格式</p>
+<p><img src="/2020/03/05/Spark-WC%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/image-20200305175336401.png" alt="image-20200305175336401"></p>
+<p><img src="/2020/03/05/Spark-WC%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/image-20200305175425998.png" alt="image-20200305175425998"></p>
+</blockquote>
+</li>
+</ul>
+<ul>
+<li><h3 id="flatMap-split-“-“"><a href="#flatMap-split-“-“" class="headerlink" title="flatMap(_.split(“ “))"></a>flatMap(_.split(“ “))</h3><blockquote>
+<p>生成MapPartitionsRDD对象,传入前一个RDD<code>调用者</code>的引用,同时要传入包装了自己写的方法的方法,在compute中会被调用。</p>
+<p><img src="/2020/03/05/Spark-WC%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/image-20200305175729912.png" alt="image-20200305175729912"></p>
+</blockquote>
+<h4 id="MapPartitionsRDD主要方法"><a href="#MapPartitionsRDD主要方法" class="headerlink" title="MapPartitionsRDD主要方法"></a>MapPartitionsRDD主要方法</h4><blockquote>
+<p>保存前一个RDD的引用</p>
+<p><img src="/2020/03/05/Spark-WC%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/image-20200305192728338.png" alt="image-20200305192728338"></p>
+<p>生成OneToOneDependency<code>一对一</code>的关系</p>
+<p><img src="/2020/03/05/Spark-WC%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/image-20200305181357322.png" alt="image-20200305181357322"></p>
+</blockquote>
+<ul>
+<li><h4 id="compute-方法-1"><a href="#compute-方法-1" class="headerlink" title="compute()方法"></a>compute()方法</h4><blockquote>
+<p>调用构造时传入的方法f,三个参数:context上下文,分区号<code>计算的分区</code>,前一个RDD的迭代器方法<code>在父类中</code></p>
+<p><img src="/2020/03/05/Spark-WC%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/image-20200305184029637.png" alt="image-20200305184029637"></p>
+</blockquote>
+<blockquote>
+<p>RDD中的方法iterator(),所有RDD都有，首先会从内存、缓存、持久化中找是否含有迭代器，如果都没有再调用compute方法获取迭代器</p>
+<p><img src="/2020/03/05/Spark-WC%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/image-20200305184255179.png" alt="image-20200305184255179"></p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><h3 id="map-1"><a href="#map-1" class="headerlink" title="map((_, 1))"></a>map((_, 1))</h3><blockquote>
+<p>与flatMap(_.split(“ “))一致</p>
+<p><img src="/2020/03/05/Spark-WC%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/image-20200305184920913.png" alt="image-20200305184920913"></p>
+</blockquote>
+</li>
+</ul>
+<ul>
+<li><h3 id="reduceByKey"><a href="#reduceByKey" class="headerlink" title="reduceByKey(_ + _)"></a>reduceByKey(_ + _)</h3><blockquote>
+<p>调用combineByKeyWithClassTag方法返回ShuffledRDD对象,入参中的分区器<code>partitioner</code>一般采用HashPartitioner<code>hash取模</code></p>
+<p>combineByKeyWithClassTag作用是将相同的数据合并再shuffle</p>
+<p>combineByKeyWithClassTag的三个入参函数介绍：</p>
+<pre><code>1. 第一条记录直接放入hashMap`代码写死,通用`
+ 2. 后面的记录处理的方法  oldValue + newValue `针对本项目,是相加的逻辑`
+ 3. 溢写后产生的多个文件合并时采用相同的逻辑</code></pre><p><img src="/2020/03/05/Spark-WC%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/image-20200305185839209.png" alt="image-20200305185839209"></p>
+</blockquote>
+<h4 id="ShuffledRDD主要方法"><a href="#ShuffledRDD主要方法" class="headerlink" title="ShuffledRDD主要方法"></a>ShuffledRDD主要方法</h4><blockquote>
+<p>构造时会传入调用者的上下文,以及NIl的Dependency,但是ShuffledRDD中重写了getDependencies方法</p>
+<p><img src="/2020/03/05/Spark-WC%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/image-20200305193321010.png" alt="image-20200305193321010"></p>
+</blockquote>
+<ul>
+<li><h4 id="getDependencies-方法"><a href="#getDependencies-方法" class="headerlink" title="getDependencies()方法"></a>getDependencies()方法</h4><blockquote>
+<p>生成ShuffleDependency<code>宽依赖</code></p>
+<p><img src="/2020/03/05/Spark-WC%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/image-20200305194322014.png" alt="image-20200305194322014"></p>
+</blockquote>
+</li>
+<li><h4 id="compute-方法-2"><a href="#compute-方法-2" class="headerlink" title="compute()方法"></a>compute()方法</h4><blockquote>
+<p>通过shuffleManager得到reader再调用read()方法获取到迭代器</p>
+<p><img src="/2020/03/05/Spark-WC%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/image-20200305194619453.png" alt="image-20200305194619453"></p>
+</blockquote>
+<blockquote>
+<p>shuffleMapTask会获得上一个task中最后一个RDD的迭代器,在writer中的write()方法会调用迭代器将数据写到文件中</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
 
       
 
@@ -315,7 +403,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/03/05/hello-world/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/03/05/Spark-WC%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -329,15 +417,11 @@
   
 <nav id="article-nav">
   
-    <a href="/2020/03/05/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          我的第一篇博客
-        
-      </div>
-    </a>
   
+    <a href="/2020/03/05/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">我的第一篇博客</div>
+      <i class="icon-circle-right"></i>
+    </a>
   
 </nav>
 
