@@ -214,90 +214,10 @@
 
 
 
-<h2 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h2><ul>
-<li><h3 id="sc-textFile-方法"><a href="#sc-textFile-方法" class="headerlink" title="sc.textFile() 方法"></a>sc.textFile() 方法</h3><blockquote>
-<p>生成HadoopRDD对象</p>
-<p><img src="/2020/03/05/Spark-WC%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/image-20200305172743177.png" alt="image-20200305172743177"></p>
-</blockquote>
-<h4 id="HadoopRDD主要方法"><a href="#HadoopRDD主要方法" class="headerlink" title="HadoopRDD主要方法"></a>HadoopRDD主要方法</h4></li>
-</ul>
-<blockquote>
-<p>Dependency指向Nil，没有前置依赖</p>
-</blockquote>
-<ul>
-<li><h4 id="getPartitions-方法"><a href="#getPartitions-方法" class="headerlink" title="getPartitions()方法"></a>getPartitions()方法</h4><blockquote>
-<p>通过InputFormat获取分片的个数，即为分区个数</p>
-</blockquote>
-</li>
-<li><h4 id="compute-方法"><a href="#compute-方法" class="headerlink" title="compute()方法"></a>compute()方法</h4><blockquote>
-<p>传入Partition、TaskContext,返回一个InterruptibleIterator迭代器,内部实现中通过InputFormat来获得RecordReader从而决定读取的格式</p>
-<p><img src="/2020/03/05/Spark-WC%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/image-20200305175336401.png" alt="image-20200305175336401"></p>
-<p><img src="/2020/03/05/Spark-WC%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/image-20200305175425998.png" alt="image-20200305175425998"></p>
-</blockquote>
-</li>
-</ul>
-<ul>
-<li><h3 id="flatMap-split-“-“"><a href="#flatMap-split-“-“" class="headerlink" title="flatMap(_.split(“ “))"></a>flatMap(_.split(“ “))</h3><blockquote>
-<p>生成MapPartitionsRDD对象,传入前一个RDD<code>调用者</code>的引用,同时要传入包装了自己写的方法的方法,在compute中会被调用。</p>
-<p><img src="/2020/03/05/Spark-WC%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/image-20200305175729912.png" alt="image-20200305175729912"></p>
-</blockquote>
-<h4 id="MapPartitionsRDD主要方法"><a href="#MapPartitionsRDD主要方法" class="headerlink" title="MapPartitionsRDD主要方法"></a>MapPartitionsRDD主要方法</h4><blockquote>
-<p>保存前一个RDD的引用</p>
-<p><img src="/2020/03/05/Spark-WC%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/image-20200305192728338.png" alt="image-20200305192728338"></p>
-<p>生成OneToOneDependency<code>一对一</code>的关系</p>
-<p><img src="/2020/03/05/Spark-WC%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/image-20200305181357322.png" alt="image-20200305181357322"></p>
-</blockquote>
-<ul>
-<li><h4 id="compute-方法-1"><a href="#compute-方法-1" class="headerlink" title="compute()方法"></a>compute()方法</h4><blockquote>
-<p>调用构造时传入的方法f,三个参数:context上下文,分区号<code>计算的分区</code>,前一个RDD的迭代器方法<code>在父类中</code></p>
-<p><img src="/2020/03/05/Spark-WC%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/image-20200305184029637.png" alt="image-20200305184029637"></p>
-</blockquote>
-<blockquote>
-<p>RDD中的方法iterator(),所有RDD都有，首先会从内存、缓存、持久化中找是否含有迭代器，如果都没有再调用compute方法获取迭代器</p>
-<p><img src="/2020/03/05/Spark-WC%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/image-20200305184255179.png" alt="image-20200305184255179"></p>
-</blockquote>
-</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li><h3 id="map-1"><a href="#map-1" class="headerlink" title="map((_, 1))"></a>map((_, 1))</h3><blockquote>
-<p>与flatMap(_.split(“ “))一致</p>
-<p><img src="/2020/03/05/Spark-WC%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/image-20200305184920913.png" alt="image-20200305184920913"></p>
-</blockquote>
-</li>
-</ul>
-<ul>
-<li><h3 id="reduceByKey"><a href="#reduceByKey" class="headerlink" title="reduceByKey(_ + _)"></a>reduceByKey(_ + _)</h3><blockquote>
-<p>调用combineByKeyWithClassTag方法返回ShuffledRDD对象,入参中的分区器<code>partitioner</code>一般采用HashPartitioner<code>hash取模</code></p>
-<p>combineByKeyWithClassTag作用是将相同的数据合并再shuffle</p>
-<p>combineByKeyWithClassTag的三个入参函数介绍：</p>
-<pre><code>1. 第一条记录直接放入hashMap`代码写死,通用`
- 2. 后面的记录处理的方法  oldValue + newValue `针对本项目,是相加的逻辑`
- 3. 溢写后产生的多个文件合并时采用相同的逻辑</code></pre><p><img src="/2020/03/05/Spark-WC%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/image-20200305185839209.png" alt="image-20200305185839209"></p>
-</blockquote>
-<h4 id="ShuffledRDD主要方法"><a href="#ShuffledRDD主要方法" class="headerlink" title="ShuffledRDD主要方法"></a>ShuffledRDD主要方法</h4><blockquote>
-<p>构造时会传入调用者的上下文,以及NIl的Dependency,但是ShuffledRDD中重写了getDependencies方法</p>
-<p><img src="/2020/03/05/Spark-WC%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/image-20200305193321010.png" alt="image-20200305193321010"></p>
-</blockquote>
-<ul>
-<li><h4 id="getDependencies-方法"><a href="#getDependencies-方法" class="headerlink" title="getDependencies()方法"></a>getDependencies()方法</h4><blockquote>
-<p>生成ShuffleDependency<code>宽依赖</code></p>
-<p><img src="/2020/03/05/Spark-WC%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/image-20200305194322014.png" alt="image-20200305194322014"></p>
-</blockquote>
-</li>
-<li><h4 id="compute-方法-2"><a href="#compute-方法-2" class="headerlink" title="compute()方法"></a>compute()方法</h4><blockquote>
-<p>通过shuffleManager得到reader再调用read()方法获取到迭代器</p>
-<p><img src="/2020/03/05/Spark-WC%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/image-20200305194619453.png" alt="image-20200305194619453"></p>
-</blockquote>
-<blockquote>
-<p>shuffleMapTask会获得上一个task中最后一个RDD的迭代器,在writer中的write()方法会调用迭代器将数据写到文件中</p>
-</blockquote>
-</li>
-</ul>
-</li>
-</ul>
 
+
+<h2 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析     "></a>源码分析</h2>
+        
       
 
       
