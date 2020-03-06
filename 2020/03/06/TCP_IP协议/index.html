@@ -345,7 +345,7 @@
 <li><h4 id="实践-1"><a href="#实践-1" class="headerlink" title="实践"></a>实践</h4><blockquote>
 <h5 id="IP地址寻找过程"><a href="#IP地址寻找过程" class="headerlink" title="IP地址寻找过程"></a>IP地址寻找过程</h5><p>比如ping <a href="http://www.baidu.com" target="_blank" rel="noopener">www.baidu.com</a>  域名解析后的IP地址为：104.193.88.77</p>
 <ol>
-<li>将104.193.88.77与下面路由表的子网掩码<code>255.25.255.0</code>按位与运算得到网络地址<code>104.193.88.77</code>，与192.168.1.0不一致</li>
+<li>将104.193.88.77与下面路由表的子网掩码<code>255.255.255.0</code>按位与运算得到网络地址<code>104.193.88.77</code>，与192.168.1.0不一致</li>
 <li>继续与子网掩码<code>0.0.0.0</code>按位与运算得到网络地址<code>0.0.0.0</code>，与0.0.0.0一致</li>
 <li>将数据发给网关<code>192.168.1.1</code></li>
 <li>网关进行路由把数据给下一跳地址，多次转发之后到达百度所在子网</li>
