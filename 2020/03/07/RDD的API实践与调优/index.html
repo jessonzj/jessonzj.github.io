@@ -6,25 +6,50 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>TCP_IP协议 | 张杰个人博客</title>
+  <title>RDD的API实践与调优 | 张杰个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="目录 OSI七层模型简介 TCP&#x2F;IP协议 ​    应用层介绍 ​    传输控制层介绍 ​            TCP的三次握手 四次挥手 ​    网络层中IP寻址过程 ​    链路层简介 kernel简介">
+  <meta name="description" content="基础API 带函数的非聚合 filter、map、flatMap等   1234&#x2F;&#x2F;要求：返回大于3的数val rdd1 &#x3D; sc.parallelize(List(1, 2, 3, 4, 5)) &#x2F;&#x2F;create算子,构造RDDval filterRes &#x3D; rdd1.filter(_ &gt; 3)   &#x2F;&#x2F;Transformation算子,从一个RDD转换为另一个RDDval array &#x3D;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="TCP_IP协议">
-<meta property="og:url" content="http://yoursite.com/2020/03/06/TCP_IP%E5%8D%8F%E8%AE%AE/index.html">
+<meta property="og:title" content="RDD的API实践与调优">
+<meta property="og:url" content="http://yoursite.com/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/index.html">
 <meta property="og:site_name" content="张杰个人博客">
-<meta property="og:description" content="目录 OSI七层模型简介 TCP&#x2F;IP协议 ​    应用层介绍 ​    传输控制层介绍 ​            TCP的三次握手 四次挥手 ​    网络层中IP寻址过程 ​    链路层简介 kernel简介">
+<meta property="og:description" content="基础API 带函数的非聚合 filter、map、flatMap等   1234&#x2F;&#x2F;要求：返回大于3的数val rdd1 &#x3D; sc.parallelize(List(1, 2, 3, 4, 5)) &#x2F;&#x2F;create算子,构造RDDval filterRes &#x3D; rdd1.filter(_ &gt; 3)   &#x2F;&#x2F;Transformation算子,从一个RDD转换为另一个RDDval array &#x3D;">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://yoursite.com/2020/03/06/TCP_IP%E5%8D%8F%E8%AE%AE/image-20200306131233036.png">
-<meta property="og:image" content="http://yoursite.com/2020/03/06/TCP_IP%E5%8D%8F%E8%AE%AE/image-20200306133427460.png">
-<meta property="og:image" content="http://yoursite.com/2020/03/06/TCP_IP%E5%8D%8F%E8%AE%AE/image-20200306152951758.png">
-<meta property="og:image" content="http://yoursite.com/2020/03/06/TCP_IP%E5%8D%8F%E8%AE%AE/image-20200306152631949.png">
-<meta property="article:published_time" content="2020-03-06T08:53:57.000Z">
-<meta property="article:modified_time" content="2020-03-06T08:53:57.000Z">
+<meta property="og:image" content="http://yoursite.com/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307180004327.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307180056370.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307182240392.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307182224458.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307181540329.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307181803956.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307182440805.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307182501144.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307181127841.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307181139927.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307185628282.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307183735134.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307183749542.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307184303503.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307184315869.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307185213964.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307185255433.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307185233398.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307185307371.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307185853846.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307185914324.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307212648625.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307212727651.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307212944574.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307212958084.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307225948348.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307230147933.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307233155557.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307233208899.png">
+<meta property="article:published_time" content="2020-03-07T06:05:39.000Z">
+<meta property="article:modified_time" content="2020-03-07T06:05:39.000Z">
 <meta property="article:author" content="张杰">
-<meta property="article:tag" content="计算机网络">
+<meta property="article:tag" content="Spark RDD">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/2020/03/06/TCP_IP%E5%8D%8F%E8%AE%AE/image-20200306131233036.png">
+<meta name="twitter:image" content="http://yoursite.com/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307180004327.png">
   
     <link rel="alternative" href="/atom.xml" title="张杰个人博客" type="application/atom+xml">
   
@@ -198,194 +223,195 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-TCP_IP协议" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-RDD的API实践与调优" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      TCP_IP协议
+      RDD的API实践与调优
     </h1>
   
 
         
-        <a href="/2020/03/06/TCP_IP%E5%8D%8F%E8%AE%AE/" class="archive-article-date">
-  	<time datetime="2020-03-06T08:53:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-06</time>
+        <a href="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/" class="archive-article-date">
+  	<time datetime="2020-03-07T06:05:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-07</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><blockquote>
-<p>OSI七层模型简介</p>
-<p>TCP/IP协议</p>
-<p>​    应用层介绍</p>
-<p>​    传输控制层介绍</p>
-<p>​            TCP的三次握手 四次挥手</p>
-<p>​    网络层中IP寻址过程</p>
-<p>​    链路层简介</p>
-<p>kernel简介</p>
-</blockquote>
-<a id="more"></a>
-
-<h2 id="OSI七层模型"><a href="#OSI七层模型" class="headerlink" title="OSI七层模型"></a>OSI七层模型</h2><ul>
-<li><h3 id="为什么要分层"><a href="#为什么要分层" class="headerlink" title="为什么要分层?"></a>为什么要分层?</h3><blockquote>
-<p>解耦,每层做自己的事，上下层通信通过调接口。接口不变内部实现可以换</p>
+        <h2 id="基础API"><a href="#基础API" class="headerlink" title="基础API"></a>基础API</h2><ul>
+<li><h3 id="带函数的非聚合"><a href="#带函数的非聚合" class="headerlink" title="带函数的非聚合"></a>带函数的非聚合</h3><ul>
+<li><h4 id="filter、map、flatMap等"><a href="#filter、map、flatMap等" class="headerlink" title="filter、map、flatMap等"></a>filter、map、flatMap等</h4></li>
+</ul>
+<blockquote>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//要求：返回大于3的数</span></span><br><span class="line"><span class="keyword">val</span> rdd1 = sc.parallelize(<span class="type">List</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>)) <span class="comment">//create算子,构造RDD</span></span><br><span class="line"><span class="keyword">val</span> filterRes = rdd1.filter(_ &gt; <span class="number">3</span>)   <span class="comment">//Transformation算子,从一个RDD转换为另一个RDD</span></span><br><span class="line"><span class="keyword">val</span> array = filterRes.collect()  <span class="comment">//Action算子,执行计算</span></span><br></pre></td></tr></table></figure>
 </blockquote>
 </li>
-</ul>
+<li><h3 id="单元素的数据集操作"><a href="#单元素的数据集操作" class="headerlink" title="单元素的数据集操作"></a>单元素的数据集操作</h3><blockquote>
+<h5 id="测试数据："><a href="#测试数据：" class="headerlink" title="测试数据："></a>测试数据：</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> rdd1 = sc.parallelize(<span class="type">List</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>))</span><br><span class="line"><span class="keyword">val</span> rdd2 = sc.parallelize(<span class="type">List</span>(<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>))</span><br></pre></td></tr></table></figure>
+</blockquote>
 <ul>
-<li><h3 id="内容"><a href="#内容" class="headerlink" title="内容"></a>内容</h3><blockquote>
-<p>从上到下依次为：应用层、表示层、会话层、传输控制层、网络层、链路层、物理层</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="TCP-IP协议"><a href="#TCP-IP协议" class="headerlink" title="TCP/IP协议"></a>TCP/IP协议</h2><ul>
-<li><h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><blockquote>
-<p>TCP/IP协议对OSI模型进行了简化,包含应用层、传输层、网络层和数据链路层，有些地方也包含了物理层。</p>
-</blockquote>
-</li>
-</ul>
-<ul>
-<li><h3 id="应用层"><a href="#应用层" class="headerlink" title="应用层"></a>应用层</h3><blockquote>
-<p>主要的协议有HTTP、SMTP、FTP、SSH</p>
-<p>用来接收来自传输层的数据或者按不同应用要求与方式将数据传输至传输层</p>
-<p>根据协议判断数据是否加密或者压缩</p>
-<p>已经包含了OSI中的应用层、表示层和会话层</p>
-<p>直接为应用进程提供服务的。</p>
-</blockquote>
-</li>
-</ul>
-<ul>
-<li><h4 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h4><blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">在Linux中一切皆文件 该命令是将本机器对百度80端口的一个TCP连接通信抽象成某个录下的一个文件，8表示该socket  &lt;&gt; 表示输入输出</span><br><span class="line">exec 8&lt;&gt; &#x2F;dev&#x2F;tcp&#x2F;www.baidu.com&#x2F;80</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">将请求发给文件描述符8</span><br><span class="line">echo -e &quot;GET &#x2F; HTTP&#x2F;1.0\n&quot; &gt;&amp; 8</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">从文件描述符中获取请求结果</span><br><span class="line">cat &lt;&amp; 8</span><br></pre></td></tr></table></figure>
-
-<p><img src="/2020/03/06/TCP_IP%E5%8D%8F%E8%AE%AE/image-20200306131233036.png" alt="image-20200306131233036"></p>
-</blockquote>
-</li>
-</ul>
-<ul>
-<li><h3 id="传输控制层"><a href="#传输控制层" class="headerlink" title="传输控制层"></a>传输控制层</h3><blockquote>
-<p>主要的协议有TCP、UDP</p>
-<p>是使用者使用平台和计算机信息内部数据结合的通道，可以实现数据传输与数据共享</p>
-</blockquote>
-</li>
-</ul>
-<ul>
-<li><h4 id="UDP"><a href="#UDP" class="headerlink" title="UDP"></a>UDP</h4><blockquote>
-<p>用户数据报协议(User Datagram Protocol)</p>
-<p>无连接，尽最大可能交付，没有拥塞控制，面向报文</p>
-</blockquote>
-</li>
-</ul>
-<ul>
-<li><h4 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h4><blockquote>
-<h5 id="控制位"><a href="#控制位" class="headerlink" title="控制位"></a>控制位</h5><p>TCP首部中含有8位的控制位：分别是CWR,ECE,URG,ACK,PSH,RST,SYN,FIN</p>
-<p>ACK：该位设为1，确认应答的字段有效，TCP规定除了最初建立连接时的SYN包之外该位必须设为1</p>
-<p>SYN：用于建立连接，该位设为1，表示希望建立连接</p>
-<p>FIN：该位设为1，表示今后不再有数据发送，希望断开连接</p>
-<p>每个主机又对对方的FIN包进行确认应答之后可以断开连接。不过主机收到FIN设置为1的 TCP段之后不必马上回复一个FIN包，而是可以等到缓冲区中的所有数据都因为已成功发送而被自动删除之后再发FIN包，所以断开连接是四次挥手</p>
+<li><h4 id="并集-union"><a href="#并集-union" class="headerlink" title="并集(union)"></a>并集(union)</h4><blockquote>
+<p>没有shuffle，并集之后的分区个数为两个RDD的分区个数之后，并且打印也是一个分区一个分区的打印</p>
 </blockquote>
 <blockquote>
-<h5 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h5><p>客户端向服务端发送连接请求包，SYN=1</p>
-<p>服务端收到连接请求报文，如果同意连接，则向客户端发送连接确认报文，ACK=1，SYN=1</p>
-<p>客户端收到服务端的连接确认报文后再向服务端发出确认包，ACK=1</p>
-<p>第一次握手：服务端收到了客户端的连接请求包，这样服务端就知道客户端的发送能力以及自己的接收能力是正常的</p>
-<p>第二次握手：客户端收到了服务端的确认包，这样客户端就知道服务端的发送、接收能力以及自己的发送、接收能力是正常的</p>
-<p>第三次握手：服务端接收到客户端的确认包，这样服务端知道了客户端的接收能力以及自己的发送能力是正常的</p>
-<p>最终得出客户端、服务端都知道双方的发送、接收能力是正常的</p>
-</blockquote>
-<blockquote>
-<h5 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h5><p>A向B发送FIN包</p>
-<p>B收到A的FIN包后，因为TCP是可靠的连接所以会马上回一个ACK包，表示已经收到了</p>
-<p>B再向A发送FIN包，表示同意断开连接</p>
-<p>A再向B发送ACK包，表示确认收到，之后双方都会释放资源</p>
-<p>B收到A发送的FIN包后没有立刻回FIN包是因为此时只是一个方向的连接关闭，表示A不会再发送数据，但是B可以继续传输数据或者处理缓存中的数据，当处理完毕之后发送一个FIN包表示自己也想断开连接，最后收到A的ACK包之后再关闭连接</p>
-</blockquote>
-<blockquote>
-<h5 id="使用命令查看端口状态"><a href="#使用命令查看端口状态" class="headerlink" title="使用命令查看端口状态"></a>使用命令查看端口状态</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">net:network stat：status </span><br><span class="line">-n：不显示localhost字符代表而是使用IP地址 a:all，所有   t:tcp  p：pid，程序进程ID号</span><br><span class="line">netstat -natp</span><br></pre></td></tr></table></figure>
+<h5 id="代码实现："><a href="#代码实现：" class="headerlink" title="代码实现："></a>代码实现：</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">println(rdd1.partitions.size)   <span class="comment">//1</span></span><br><span class="line">println(rdd2.partitions.size)   <span class="comment">//1</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> unionRDD = rdd1.union(rdd2)</span><br><span class="line">println(unionRDD.partitions.size)   <span class="comment">//2</span></span><br><span class="line">unionRDD.foreach(println)  <span class="comment">//因为有两个分区 ,所以打印也是拆成了两部分  12345 34567</span></span><br></pre></td></tr></table></figure>
 
-<p><img src="/2020/03/06/TCP_IP%E5%8D%8F%E8%AE%AE/image-20200306133427460.png" alt="image-20200306133427460"></p>
-<p>netstat中的各种状态：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">closed 初始状态(无连接)</span><br><span class="line">listen：监听，等待远程机器的连接请求</span><br><span class="line">syn_send：在TCP三次握手期间，主动连接端发送了SYN包，正在等待对方的ACK包</span><br><span class="line">syn_recv：在三次握手期间，主动连接端收到SYN包后所处的状态</span><br><span class="line">established：完成三次握手后，主动连接端进入的状态，TCP连接已经建立，可以进行通信</span><br><span class="line">fin_wait_1：四次挥手时，主动关闭端发送FIN包后的状态</span><br><span class="line">fin_wait_2：四次挥手手，主动关闭端收到ACK包后的状态</span><br><span class="line">time_wait：四次挥手时，主动关闭端发送了ACK包后的状态</span><br><span class="line">closing：四次挥手期间，主动关闭端发送了FIN包后，没有收到对应的ACK包，却受到了对方的FIN包后进入的状态</span><br><span class="line">close_wait：四次挥手期间，被动关闭端收到FIN包后进入的状态</span><br><span class="line">Last_ack：四次挥手时，被动关闭端发送FIN包后进入的状态，等待对方的ACK包</span><br></pre></td></tr></table></figure>
+<h5 id="输出结果："><a href="#输出结果：" class="headerlink" title="输出结果："></a>输出结果：</h5><p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307180004327.png" alt="image-20200307180004327"></p>
+<p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307180056370.png" alt="image-20200307180056370"></p>
 </blockquote>
 </li>
-</ul>
-<ul>
-<li><h3 id="网络层"><a href="#网络层" class="headerlink" title="网络层"></a>网络层</h3><blockquote>
-<p>主要的协议有IP协议、ARP协议、路由协议</p>
+<li><h4 id="交集-intersection"><a href="#交集-intersection" class="headerlink" title="交集(intersection)"></a>交集(intersection)</h4><blockquote>
+<p>有shuffle，因为底层代码中调用了cogroup方法</p>
+<p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307182240392.png" alt="image-20200307182240392"></p>
+<p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307182224458.png" alt="image-20200307182224458"></p>
+</blockquote>
+<blockquote>
+<h5 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现:"></a>代码实现:</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> intersection = rdd1.intersection(rdd2)</span><br><span class="line">intersection.foreach(println)</span><br></pre></td></tr></table></figure>
+
+<h5 id="输出结果"><a href="#输出结果" class="headerlink" title="输出结果:"></a>输出结果:</h5><p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307181540329.png" alt="image-20200307181540329"></p>
+<p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307181803956.png" alt="image-20200307181803956"></p>
 </blockquote>
 </li>
-</ul>
-<ul>
-<li><h4 id="IP协议"><a href="#IP协议" class="headerlink" title="IP协议"></a>IP协议</h4><blockquote>
-<p>IP协议将32位的IP地址分为两部分，前面部分代表网络地址，后面部分表示该主机在局域网中的地址。如果两个IP地址在同一个子网内，则网络地址一定相同。为了判断IP地址中的网络地址，IP协议还引入了子网掩码，IP地址和子网掩码通过按位与运算后就可以得到网络地址</p>
+<li><h4 id="差集-subtract"><a href="#差集-subtract" class="headerlink" title="差集(subtract)"></a>差集(subtract)</h4><blockquote>
+<p>有shuffle，同时是有方向的</p>
+<h5 id="代码实现：-1"><a href="#代码实现：-1" class="headerlink" title="代码实现："></a>代码实现：</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> subtract = rdd1.subtract(rdd2)</span><br><span class="line">subtract.foreach(println)</span><br></pre></td></tr></table></figure>
+
+<h5 id="输出结果-1"><a href="#输出结果-1" class="headerlink" title="输出结果:"></a>输出结果:</h5><p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307182440805.png" alt="image-20200307182440805"></p>
+<p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307182501144.png" alt="image-20200307182501144"></p>
 </blockquote>
 </li>
-</ul>
-<ul>
-<li><h4 id="ARP协议"><a href="#ARP协议" class="headerlink" title="ARP协议"></a>ARP协议</h4><blockquote>
-<p>即地址解析协议，是根据IP地址获取MAC地址的一个网络层协议。其工作原理如下：ARP首先会发起一个请求数据包，数据包的首部包含了目标主机的IP地址，然后这个数据包会在链路层进行再次包装，生成以太网数据包，最终由以太网广播给子网内的所有主机，每一台主机都会接收到这个数据包，并取出标头里的IP地址，然后和自己的IP地址进行比较，如果相同就返回自己的MAC地址，如果不同就丢弃该数据包。ARP接收返回消息，以此确定目标机的MAC地址；与此同时，ARP还会将返回的MAC地址与对应的IP地址存入本机ARP缓存中并保留一定时间，下次请求时直接查询ARP缓存以节约资源。</p>
-</blockquote>
-</li>
-</ul>
-<ul>
-<li><h4 id="路由协议"><a href="#路由协议" class="headerlink" title="路由协议"></a>路由协议</h4><blockquote>
-<p>首先通过IP协议来判断两台主机是否在同一个<a href="https://baike.baidu.com/item/子网/1186929" target="_blank" rel="noopener">子网</a>中，如果在同一个子网，就通过ARP协议查询对应的MAC地址，然后以广播的形式向该子网内的主机发送数据包；如果不在同一个子网，以太网会将该数据包转发给本子网的网关进行路由。<a href="https://baike.baidu.com/item/网关/98992" target="_blank" rel="noopener">网关</a>是<a href="https://baike.baidu.com/item/互联网/199186" target="_blank" rel="noopener">互联网</a>上子网与子网之间的桥梁，所以网关会进行多次转发，最终将该数据包转发到目标IP所在的子网中，然后再通过ARP获取目标机MAC，最终也是通过广播形式将数据包发送给接收方。而完成这个路由协议的物理设备就是<a href="https://baike.baidu.com/item/路由器/108294" target="_blank" rel="noopener">路由器</a>，路由器扮演着交通枢纽的角色，它会根据信道情况，选择并设定路由，以最佳路径来转发数据包。</p>
-</blockquote>
-</li>
-</ul>
-<ul>
-<li><h4 id="实践-1"><a href="#实践-1" class="headerlink" title="实践"></a>实践</h4><blockquote>
-<h5 id="IP地址寻找过程"><a href="#IP地址寻找过程" class="headerlink" title="IP地址寻找过程"></a>IP地址寻找过程</h5><p>比如ping <a href="http://www.baidu.com" target="_blank" rel="noopener">www.baidu.com</a>  域名解析后的IP地址为：104.193.88.77</p>
+<li><h4 id="笛卡尔积-cartesian"><a href="#笛卡尔积-cartesian" class="headerlink" title="笛卡尔积(cartesian)"></a>笛卡尔积(cartesian)</h4><blockquote>
+<p>获取其他分区数据有两种方式：</p>
 <ol>
-<li>将104.193.88.77与下面路由表的子网掩码<code>255.255.255.0</code>按位与运算得到网络地址<code>104.193.88.77</code>，与192.168.1.0不一致</li>
-<li>继续与子网掩码<code>0.0.0.0</code>按位与运算得到网络地址<code>0.0.0.0</code>，与0.0.0.0一致</li>
-<li>将数据发给网关<code>192.168.1.1</code></li>
-<li>网关进行路由把数据给下一跳地址，多次转发之后到达百度所在子网</li>
-<li>通过ARP获取目标MAC地址，最终通过广播形式将数据包发送给百度</li>
+<li>先通过partitioner计算再shuffle落文件最后IO拉取，这个可以区分每条数据属于哪个分区</li>
+<li>直接本地IO拉取数据，不知道每条记录的分区号</li>
 </ol>
-<p>每次跳跃时数据包中的目标IP地址与自己的IP地址不会变，一直在变的是包装在外层的MAC地址</p>
-<p><img src="/2020/03/06/TCP_IP%E5%8D%8F%E8%AE%AE/image-20200306152951758.png" alt="image-20200306152951758"></p>
-<p><img src="/2020/03/06/TCP_IP%E5%8D%8F%E8%AE%AE/image-20200306152631949.png" alt="image-20200306152631949"></p>
-<p>如果是在同一个子网中</p>
-<ol>
-<li>直接通过ARP协议查询对应的MAC地址，然后以广播的形式向该子网内的主机发送数据包</li>
-</ol>
+<p>没有shuffle，因为笛卡尔积不需要知道每条记录所属分区号，所以采取直接IO拉取的方式</p>
 </blockquote>
-</li>
-</ul>
-<ul>
-<li><h3 id="链路层"><a href="#链路层" class="headerlink" title="链路层"></a>链路层</h3><blockquote>
-<p>主要的协议有点对点协议、以太网协议</p>
-<p>作用是将数据组合成快<code>帧</code></p>
-<p>控制帧的传输</p>
-</blockquote>
-</li>
-</ul>
-<ul>
-<li><h4 id="传输过程"><a href="#传输过程" class="headerlink" title="传输过程"></a>传输过程</h4><blockquote>
-<p>根据MAC地址，以太网采用广播的形式，把数据包发给该子网内所有主机，子网内每台主机在接收到这个包之后会读取首部里的MAC地址，然后和自己的MAC地址进行比对，如果相同就做下一步处理，如果不同就丢弃这个包</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="Kernel"><a href="#Kernel" class="headerlink" title="Kernel"></a>Kernel</h2><ul>
-<li><h3 id="介绍-1"><a href="#介绍-1" class="headerlink" title="介绍"></a>介绍</h3><blockquote>
-<p>计算机操作系统中的内核</p>
-<p>向下管理所有的硬件，向上为大部分应用程序提供API开发<code>系统调用</code></p>
-<p>应用程序访问内核，再通过一个内核协调硬件</p>
-<p>内核也是一个程序，实现了传输控制层、网络层、链路层</p>
-<p>所以开发时不需要考虑怎么实现这三层，只需要new 一个socket就可以获得一个连接</p>
-</blockquote>
-</li>
-</ul>
+<blockquote>
+<h5 id="代码实现-1"><a href="#代码实现-1" class="headerlink" title="代码实现:"></a>代码实现:</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> cartesian = rdd1.cartesian(rdd2)</span><br><span class="line">cartesian.foreach(println)</span><br></pre></td></tr></table></figure>
 
+<h5 id="输出结果-2"><a href="#输出结果-2" class="headerlink" title="输出结果:"></a>输出结果:</h5><p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307181127841.png" alt="image-20200307181127841"></p>
+<p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307181139927.png" alt="image-20200307181139927"></p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><h3 id="K-V元素的数据集操作"><a href="#K-V元素的数据集操作" class="headerlink" title="K-V元素的数据集操作"></a>K-V元素的数据集操作</h3><blockquote>
+<p>都有shuffle,因为需要把相同key的数据作比较</p>
+<p>join,leftOuterJoin,rightOuterJoin,fullJoin底层实现都掉了cogroup方法,通过对cogroup的value扁平化后嵌套for循环,最后再判断输出结果,比如join的源码为:</p>
+<p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307185628282.png" alt="image-20200307185628282"></p>
+<p>两层循环有一个为空则不执行,所以是join操作</p>
+<h5 id="测试数据"><a href="#测试数据" class="headerlink" title="测试数据:"></a>测试数据:</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> kv1 = sc.parallelize(<span class="type">List</span>(</span><br><span class="line">  (<span class="string">"zhangsan"</span>, <span class="number">11</span>),</span><br><span class="line">  (<span class="string">"zhangsan"</span>, <span class="number">12</span>),</span><br><span class="line">  (<span class="string">"lisi"</span>, <span class="number">13</span>),</span><br><span class="line">  (<span class="string">"wangwu"</span>, <span class="number">14</span>)</span><br><span class="line">))</span><br><span class="line"><span class="keyword">val</span> kv2 = sc.parallelize(<span class="type">List</span>(</span><br><span class="line">  (<span class="string">"zhangsan"</span>, <span class="number">21</span>),</span><br><span class="line">  (<span class="string">"zhangsan"</span>, <span class="number">22</span>),</span><br><span class="line">  (<span class="string">"lisi"</span>, <span class="number">23</span>),</span><br><span class="line">  (<span class="string">"zhaoliu"</span>, <span class="number">28</span>)</span><br><span class="line">))</span><br></pre></td></tr></table></figure>
+
+
+</blockquote>
+<ul>
+<li><h4 id="cogroup"><a href="#cogroup" class="headerlink" title="cogroup"></a>cogroup</h4><blockquote>
+<h5 id="代码实现-2"><a href="#代码实现-2" class="headerlink" title="代码实现:"></a>代码实现:</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> cogroup = kv1.cogroup(kv2)</span><br><span class="line">cogroup.foreach(println)</span><br></pre></td></tr></table></figure>
+
+<h5 id="输出结果-3"><a href="#输出结果-3" class="headerlink" title="输出结果:"></a>输出结果:</h5><p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307183735134.png" alt="image-20200307183735134"></p>
+<p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307183749542.png" alt="image-20200307183749542"></p>
+</blockquote>
+</li>
+<li><h4 id="join"><a href="#join" class="headerlink" title="join"></a>join</h4><blockquote>
+<h5 id="代码实现-3"><a href="#代码实现-3" class="headerlink" title="代码实现:"></a>代码实现:</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> join = kv1.join(kv2)</span><br><span class="line">join.foreach(println)   <span class="comment">//两边都不为空才有输出结果</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="输出结果-4"><a href="#输出结果-4" class="headerlink" title="输出结果:"></a>输出结果:</h5><p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307184303503.png" alt="image-20200307184303503"></p>
+<p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307184315869.png" alt="image-20200307184315869"></p>
+</blockquote>
+</li>
+<li><h4 id="leftOuterJoin"><a href="#leftOuterJoin" class="headerlink" title="leftOuterJoin"></a>leftOuterJoin</h4><blockquote>
+<h5 id="代码实现-4"><a href="#代码实现-4" class="headerlink" title="代码实现:"></a>代码实现:</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> leftJoin = kv1.leftOuterJoin(kv2)</span><br><span class="line">leftJoin.foreach(println)</span><br></pre></td></tr></table></figure>
+
+<h5 id="输出结果-5"><a href="#输出结果-5" class="headerlink" title="输出结果:"></a>输出结果:</h5><p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307185213964.png" alt="image-20200307185213964"></p>
+<p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307185255433.png" alt="image-20200307185255433"></p>
+</blockquote>
+</li>
+<li><h4 id="rightOuterJoin"><a href="#rightOuterJoin" class="headerlink" title="rightOuterJoin"></a>rightOuterJoin</h4><blockquote>
+<h5 id="代码实现-5"><a href="#代码实现-5" class="headerlink" title="代码实现:"></a>代码实现:</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> rightJoin = kv1.rightOuterJoin(kv2)</span><br><span class="line">rightJoin.foreach(println)</span><br></pre></td></tr></table></figure>
+
+<h5 id="输出结果-6"><a href="#输出结果-6" class="headerlink" title="输出结果:"></a>输出结果:</h5><p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307185233398.png" alt="image-20200307185233398"></p>
+<p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307185307371.png" alt="image-20200307185307371"></p>
+</blockquote>
+</li>
+<li><h4 id="fullOuterJoin"><a href="#fullOuterJoin" class="headerlink" title="fullOuterJoin"></a>fullOuterJoin</h4><blockquote>
+<h5 id="代码实现-6"><a href="#代码实现-6" class="headerlink" title="代码实现:"></a>代码实现:</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> fullJoin = kv1.fullOuterJoin(kv2)</span><br><span class="line">fullJoin.foreach(println)</span><br></pre></td></tr></table></figure>
+
+<h5 id="输出结果-7"><a href="#输出结果-7" class="headerlink" title="输出结果:"></a>输出结果:</h5><p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307185853846.png" alt="image-20200307185853846"></p>
+<p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307185914324.png" alt="image-20200307185914324"></p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><h3 id="排序操作"><a href="#排序操作" class="headerlink" title="排序操作"></a>排序操作</h3><ul>
+<li><h4 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h4><blockquote>
+<p>对十三万左右的数据进行分析,分别取出前5的UV,PV</p>
+<p>数据格式(制表符分割):124.117.49.201  海南 2018-11-12 1542011090255  3854954330795803528  <a href="http://www.mi.com" target="_blank" rel="noopener">www.mi.com</a> Buy</p>
+</blockquote>
+<ul>
+<li><h5 id="PV分析"><a href="#PV分析" class="headerlink" title="PV分析"></a>PV分析</h5><blockquote>
+<h5 id="代码实现-7"><a href="#代码实现-7" class="headerlink" title="代码实现:"></a>代码实现:</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//124.117.49.201	海南	2018-11-12	1542011090255	3854954330795803528	www.mi.com	Buy</span></span><br><span class="line">    <span class="comment">//只需要网站地址</span></span><br><span class="line">    <span class="keyword">val</span> tupleRDD = dataRDD.map(line =&gt; (line.split(<span class="string">"\t"</span>)(<span class="number">5</span>), <span class="number">1</span>))  			<span class="comment">//(www.mi.com,1)</span></span><br><span class="line">    <span class="keyword">val</span> reduceRDD = tupleRDD.reduceByKey(_ + _) <span class="comment">//(www.mi.com,50)</span></span><br><span class="line">    <span class="keyword">val</span> swapRDD = reduceRDD.map(_.swap)   <span class="comment">//将key与value位置交换   (50,www.mi.com)</span></span><br><span class="line">    <span class="keyword">val</span> sortedRDD = swapRDD.sortByKey(<span class="literal">false</span>)   <span class="comment">// 对key做排序入参   true:升序  false:降序</span></span><br><span class="line">    <span class="keyword">val</span> resRDD = sortedRDD.take(<span class="number">5</span>).map(_.swap)  <span class="comment">//取出前5的数据然后再交换位置得到最终结果</span></span><br><span class="line">    resRDD.foreach(println)</span><br></pre></td></tr></table></figure>
+
+<h5 id="输出结果-8"><a href="#输出结果-8" class="headerlink" title="输出结果:"></a>输出结果:</h5><p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307212648625.png" alt="image-20200307212648625"></p>
+<p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307212727651.png" alt="image-20200307212727651"></p>
+</blockquote>
+</li>
+<li><h5 id="UV分析"><a href="#UV分析" class="headerlink" title="UV分析"></a>UV分析</h5><blockquote>
+<h5 id="代码实现-8"><a href="#代码实现-8" class="headerlink" title="代码实现:"></a>代码实现:</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//124.117.49.201	海南	2018-11-12	1542011090255	3854954330795803528	www.mi.com	Buy</span></span><br><span class="line">    <span class="comment">//需要IP地址与网站地址  因为是统计网站的用户量 所以还是站在网站的角度,所以还是网站作为key</span></span><br><span class="line">    <span class="keyword">val</span> tupRDD = dataRDD.map(line =&gt; &#123;</span><br><span class="line">      <span class="keyword">val</span> temp = line.split(<span class="string">"\t"</span>)</span><br><span class="line">      (temp(<span class="number">5</span>), temp(<span class="number">0</span>))</span><br><span class="line">    &#125;)   <span class="comment">//(www.mi.com,124.117.49.201)</span></span><br><span class="line">    <span class="keyword">val</span> distinctRDD = tupRDD.distinct    <span class="comment">//去重</span></span><br><span class="line">    <span class="keyword">val</span> pairRDD = distinctRDD.map(k =&gt; (k._1, <span class="number">1</span>))  <span class="comment">//将value置为1  (www.mi.com,1)</span></span><br><span class="line">    <span class="keyword">val</span> redRDD = pairRDD.reduceByKey(_ + _)</span><br><span class="line">    <span class="keyword">val</span> sortRDD = redRDD.sortBy(_._2, <span class="literal">false</span>)  <span class="comment">//第一个参数:排序的值,2:是否升序</span></span><br><span class="line">    <span class="keyword">val</span> result = sortRDD.take(<span class="number">5</span>)</span><br><span class="line">    result.foreach(println)</span><br></pre></td></tr></table></figure>
+
+<h5 id="输出结果-9"><a href="#输出结果-9" class="headerlink" title="输出结果:"></a>输出结果:</h5><p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307212944574.png" alt="image-20200307212944574"></p>
+<p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307212958084.png" alt="image-20200307212958084"></p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h3 id="聚合操作"><a href="#聚合操作" class="headerlink" title="聚合操作"></a>聚合操作</h3><blockquote>
+<h5 id="测试数据-1"><a href="#测试数据-1" class="headerlink" title="测试数据:"></a>测试数据:</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> data = sc.parallelize(<span class="type">List</span>(</span><br><span class="line">  (<span class="string">"zhangsan"</span>, <span class="number">234</span>),</span><br><span class="line">  (<span class="string">"zhangsan"</span>, <span class="number">5667</span>),</span><br><span class="line">  (<span class="string">"zhangsan"</span>, <span class="number">343</span>),</span><br><span class="line">  (<span class="string">"lisi"</span>, <span class="number">212</span>),</span><br><span class="line">  (<span class="string">"lisi"</span>, <span class="number">44</span>),</span><br><span class="line">  (<span class="string">"lisi"</span>, <span class="number">33</span>),</span><br><span class="line">  (<span class="string">"wangwu"</span>, <span class="number">535</span>),</span><br><span class="line">  (<span class="string">"wangwu"</span>, <span class="number">22</span>)</span><br><span class="line">))</span><br></pre></td></tr></table></figure>
+</blockquote>
+<ul>
+<li><h4 id="行列之间的转换"><a href="#行列之间的转换" class="headerlink" title="行列之间的转换"></a>行列之间的转换</h4><blockquote>
+<h5 id="代码实现-9"><a href="#代码实现-9" class="headerlink" title="代码实现:"></a>代码实现:</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//让相同的key作为一组  行转列的过程</span></span><br><span class="line">println(<span class="string">"---------group----------"</span>)</span><br><span class="line"><span class="keyword">val</span> group = data.groupByKey()</span><br><span class="line">group.foreach(println)</span><br><span class="line"></span><br><span class="line"><span class="comment">//列转行</span></span><br><span class="line">println(<span class="string">"---------恢复----------"</span>)</span><br><span class="line"><span class="comment">//把一个值转为多个值  一进多出所以使用flatMap</span></span><br><span class="line"><span class="keyword">val</span> resRDD = group.flatMap(pair =&gt; pair._2.map(x =&gt; (pair._1, x)))</span><br><span class="line">resRDD.foreach(println)</span><br><span class="line"></span><br><span class="line"><span class="comment">//列转行</span></span><br><span class="line">println(<span class="string">"---------恢复2----------"</span>)</span><br><span class="line"><span class="comment">//flatMapValues是直接返回value,所以传一个value的迭代器就行了</span></span><br><span class="line"><span class="keyword">val</span> resRDD2 = group.flatMapValues(_.iterator)</span><br><span class="line">resRDD2.foreach(println)</span><br></pre></td></tr></table></figure>
+
+<h5 id="输出结果-10"><a href="#输出结果-10" class="headerlink" title="输出结果:"></a>输出结果:</h5><p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307225948348.png" alt="image-20200307225948348"></p>
+<h5 id="扩展-取出最大的两个数"><a href="#扩展-取出最大的两个数" class="headerlink" title="扩展:取出最大的两个数"></a>扩展:取出最大的两个数</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//取出两个数值最大的</span></span><br><span class="line">   group.mapValues(_.toList.sorted.take(<span class="number">2</span>)).foreach(println)</span><br><span class="line"></span><br><span class="line">   println(<span class="string">"---------------------"</span>)</span><br><span class="line">   <span class="comment">//取出两个数值最大的,并且列转行</span></span><br><span class="line">   group.flatMapValues(_.toList.sorted.take(<span class="number">2</span>)).foreach(println)</span><br></pre></td></tr></table></figure>
+
+<h5 id="输出结果-11"><a href="#输出结果-11" class="headerlink" title="输出结果:"></a>输出结果:</h5><p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307230147933.png" alt="image-20200307230147933"></p>
+</blockquote>
+</li>
+<li><h4 id="sum、count、min、max、avg等计算"><a href="#sum、count、min、max、avg等计算" class="headerlink" title="sum、count、min、max、avg等计算"></a>sum、count、min、max、avg等计算</h4><blockquote>
+<h5 id="代码实现：-2"><a href="#代码实现：-2" class="headerlink" title="代码实现："></a>代码实现：</h5><h5 id="特别注意求平均值时如何让两个数据集根据key相遇"><a href="#特别注意求平均值时如何让两个数据集根据key相遇" class="headerlink" title="特别注意求平均值时如何让两个数据集根据key相遇"></a>特别注意求平均值时如何让两个数据集根据key相遇</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//求和</span></span><br><span class="line">println(<span class="string">"----------sum-----------"</span>)</span><br><span class="line">data.reduceByKey(_ + _).foreach(println)</span><br><span class="line"><span class="comment">//求总数</span></span><br><span class="line">println(<span class="string">"----------count-----------"</span>)</span><br><span class="line">data.mapValues(e =&gt; <span class="number">1</span>).reduceByKey(_ + _).foreach(println)</span><br><span class="line"><span class="comment">//求最小值</span></span><br><span class="line">println(<span class="string">"----------min-----------"</span>)</span><br><span class="line">data.reduceByKey((ov, nv) =&gt; <span class="keyword">if</span>(ov &gt; nv) nv <span class="keyword">else</span> ov).foreach(println)</span><br><span class="line"><span class="comment">//求最大值</span></span><br><span class="line">println(<span class="string">"----------max-----------"</span>)</span><br><span class="line">data.reduceByKey((ov, nv) =&gt; <span class="keyword">if</span>(ov &gt; nv) ov <span class="keyword">else</span> nv).foreach(println)</span><br><span class="line"><span class="comment">//求平均值</span></span><br><span class="line">println(<span class="string">"----------avg-----------"</span>)</span><br><span class="line"><span class="keyword">val</span> sum = data.reduceByKey(_ + _)</span><br><span class="line"><span class="keyword">val</span> count = data.mapValues(e =&gt; <span class="number">1</span>).reduceByKey(_ + _)</span><br><span class="line"><span class="comment">//让两个RDD根据key相遇的方法  用join</span></span><br><span class="line">sum.join(count).mapValues(e =&gt; e._1 / e._2).foreach(println)</span><br></pre></td></tr></table></figure>
+
+<h5 id="Stages图："><a href="#Stages图：" class="headerlink" title="Stages图："></a>Stages图：</h5><p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307233155557.png" alt="image-20200307233155557"></p>
+<h5 id="求平均值优化："><a href="#求平均值优化：" class="headerlink" title="求平均值优化："></a>求平均值优化：</h5><h5 id="优化思路："><a href="#优化思路：" class="headerlink" title="优化思路："></a>优化思路：</h5><blockquote>
+<p>观察Stages图发现同一个数据集被拉取了两次<code>两次各自的shuffle</code>，一次是直接拉取给一台机器，一次 是通过计算后拉取给一台机器。然后该机器拿到两批数据后先解决相遇的事，再解决逻辑的事，最后得到结果。</p>
+<p>问题：数据原来是拉取两次产生了各自独立的结果集，现在能不能拉取一次到内存计算就产生两个结果集，拉取计算完成之后再求出平均值</p>
+</blockquote>
+<h5 id="代码实现：-3"><a href="#代码实现：-3" class="headerlink" title="代码实现："></a>代码实现：</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//求平均值优化：</span></span><br><span class="line"> println(<span class="string">"----------avg优化-----------"</span>)</span><br><span class="line"> data.combineByKey(</span><br><span class="line">   <span class="comment">//      createCombiner: V =&gt; C,</span></span><br><span class="line">   <span class="comment">//第一条记录的 value  怎么放入 hashmap</span></span><br><span class="line">   value =&gt; (value,<span class="number">1</span>),</span><br><span class="line">   <span class="comment">//      mergeValue: (C, V) =&gt; C,</span></span><br><span class="line">   <span class="comment">//如果有第二条记录，第二条以及以后的他们的value怎么放到hashmap里：</span></span><br><span class="line">   (oldValue:(<span class="type">Int</span>, <span class="type">Int</span>),newValue) =&gt; (oldValue._1 + newValue, oldValue._2+<span class="number">1</span>),</span><br><span class="line">   <span class="comment">//      mergeCombiners: (C, C) =&gt; C,</span></span><br><span class="line">   <span class="comment">//合并溢写结果的函数：</span></span><br><span class="line">   (value1:(<span class="type">Int</span>, <span class="type">Int</span>),value2:(<span class="type">Int</span>, <span class="type">Int</span>)) =&gt; (value1._1 + value2._1, value1._2 + value2._2)</span><br><span class="line"> ).mapValues(e =&gt; e._1 / e._2).foreach(println)</span><br></pre></td></tr></table></figure>
+
+<h5 id="Stages图：-1"><a href="#Stages图：-1" class="headerlink" title="Stages图："></a>Stages图：</h5><p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307233208899.png" alt="image-20200307233208899"></p>
+<h5 id="对比："><a href="#对比：" class="headerlink" title="对比："></a>对比：</h5><blockquote>
+<p>原来时计算两次拉取两次聚合之后出结果</p>
+<p>优化后是计算一次拉取一次出结果</p>
+</blockquote>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><h3 id="分区操作"><a href="#分区操作" class="headerlink" title="分区操作"></a>分区操作</h3></li>
+</ul>
+<h2 id="进阶API"><a href="#进阶API" class="headerlink" title="进阶API"></a>进阶API</h2>
       
 
       
@@ -419,7 +445,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">计算机网络</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Spark RDD</a>
         		</li>
       		
 		</ul>
@@ -431,7 +457,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/计算机基础//" class="article-tag-list-link color1">计算机基础</a>
+        			<a href="/categories/大数据学习//" class="article-tag-list-link color1">大数据学习</a>
         		</li>
       		
 		</ul>
@@ -486,7 +512,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/03/06/TCP_IP%E5%8D%8F%E8%AE%AE/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -500,18 +526,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          RDD的API实践与调优
-        
-      </div>
-    </a>
   
-  
-    <a href="/2020/03/05/Spark-WC%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Spark-WC源码分析</div>
+    <a href="/2020/03/06/TCP_IP%E5%8D%8F%E8%AE%AE/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">TCP_IP协议</div>
       <i class="icon-circle-right"></i>
     </a>
   

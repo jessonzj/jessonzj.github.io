@@ -190,6 +190,258 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-RDD的API实践与调优" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/">RDD的API实践与调优</a>
+    </h1>
+  
+
+        
+        <a href="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/" class="archive-article-date">
+  	<time datetime="2020-03-07T06:05:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-07</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="基础API"><a href="#基础API" class="headerlink" title="基础API"></a>基础API</h2><ul>
+<li><h3 id="带函数的非聚合"><a href="#带函数的非聚合" class="headerlink" title="带函数的非聚合"></a>带函数的非聚合</h3><ul>
+<li><h4 id="filter、map、flatMap等"><a href="#filter、map、flatMap等" class="headerlink" title="filter、map、flatMap等"></a>filter、map、flatMap等</h4></li>
+</ul>
+<blockquote>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//要求：返回大于3的数</span></span><br><span class="line"><span class="keyword">val</span> rdd1 = sc.parallelize(<span class="type">List</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>)) <span class="comment">//create算子,构造RDD</span></span><br><span class="line"><span class="keyword">val</span> filterRes = rdd1.filter(_ &gt; <span class="number">3</span>)   <span class="comment">//Transformation算子,从一个RDD转换为另一个RDD</span></span><br><span class="line"><span class="keyword">val</span> array = filterRes.collect()  <span class="comment">//Action算子,执行计算</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+</li>
+<li><h3 id="单元素的数据集操作"><a href="#单元素的数据集操作" class="headerlink" title="单元素的数据集操作"></a>单元素的数据集操作</h3><blockquote>
+<h5 id="测试数据："><a href="#测试数据：" class="headerlink" title="测试数据："></a>测试数据：</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> rdd1 = sc.parallelize(<span class="type">List</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>))</span><br><span class="line"><span class="keyword">val</span> rdd2 = sc.parallelize(<span class="type">List</span>(<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>))</span><br></pre></td></tr></table></figure>
+</blockquote>
+<ul>
+<li><h4 id="并集-union"><a href="#并集-union" class="headerlink" title="并集(union)"></a>并集(union)</h4><blockquote>
+<p>没有shuffle，并集之后的分区个数为两个RDD的分区个数之后，并且打印也是一个分区一个分区的打印</p>
+</blockquote>
+<blockquote>
+<h5 id="代码实现："><a href="#代码实现：" class="headerlink" title="代码实现："></a>代码实现：</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">println(rdd1.partitions.size)   <span class="comment">//1</span></span><br><span class="line">println(rdd2.partitions.size)   <span class="comment">//1</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> unionRDD = rdd1.union(rdd2)</span><br><span class="line">println(unionRDD.partitions.size)   <span class="comment">//2</span></span><br><span class="line">unionRDD.foreach(println)  <span class="comment">//因为有两个分区 ,所以打印也是拆成了两部分  12345 34567</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="输出结果："><a href="#输出结果：" class="headerlink" title="输出结果："></a>输出结果：</h5><p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307180004327.png" alt="image-20200307180004327"></p>
+<p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307180056370.png" alt="image-20200307180056370"></p>
+</blockquote>
+</li>
+<li><h4 id="交集-intersection"><a href="#交集-intersection" class="headerlink" title="交集(intersection)"></a>交集(intersection)</h4><blockquote>
+<p>有shuffle，因为底层代码中调用了cogroup方法</p>
+<p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307182240392.png" alt="image-20200307182240392"></p>
+<p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307182224458.png" alt="image-20200307182224458"></p>
+</blockquote>
+<blockquote>
+<h5 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现:"></a>代码实现:</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> intersection = rdd1.intersection(rdd2)</span><br><span class="line">intersection.foreach(println)</span><br></pre></td></tr></table></figure>
+
+<h5 id="输出结果"><a href="#输出结果" class="headerlink" title="输出结果:"></a>输出结果:</h5><p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307181540329.png" alt="image-20200307181540329"></p>
+<p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307181803956.png" alt="image-20200307181803956"></p>
+</blockquote>
+</li>
+<li><h4 id="差集-subtract"><a href="#差集-subtract" class="headerlink" title="差集(subtract)"></a>差集(subtract)</h4><blockquote>
+<p>有shuffle，同时是有方向的</p>
+<h5 id="代码实现：-1"><a href="#代码实现：-1" class="headerlink" title="代码实现："></a>代码实现：</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> subtract = rdd1.subtract(rdd2)</span><br><span class="line">subtract.foreach(println)</span><br></pre></td></tr></table></figure>
+
+<h5 id="输出结果-1"><a href="#输出结果-1" class="headerlink" title="输出结果:"></a>输出结果:</h5><p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307182440805.png" alt="image-20200307182440805"></p>
+<p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307182501144.png" alt="image-20200307182501144"></p>
+</blockquote>
+</li>
+<li><h4 id="笛卡尔积-cartesian"><a href="#笛卡尔积-cartesian" class="headerlink" title="笛卡尔积(cartesian)"></a>笛卡尔积(cartesian)</h4><blockquote>
+<p>获取其他分区数据有两种方式：</p>
+<ol>
+<li>先通过partitioner计算再shuffle落文件最后IO拉取，这个可以区分每条数据属于哪个分区</li>
+<li>直接本地IO拉取数据，不知道每条记录的分区号</li>
+</ol>
+<p>没有shuffle，因为笛卡尔积不需要知道每条记录所属分区号，所以采取直接IO拉取的方式</p>
+</blockquote>
+<blockquote>
+<h5 id="代码实现-1"><a href="#代码实现-1" class="headerlink" title="代码实现:"></a>代码实现:</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> cartesian = rdd1.cartesian(rdd2)</span><br><span class="line">cartesian.foreach(println)</span><br></pre></td></tr></table></figure>
+
+<h5 id="输出结果-2"><a href="#输出结果-2" class="headerlink" title="输出结果:"></a>输出结果:</h5><p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307181127841.png" alt="image-20200307181127841"></p>
+<p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307181139927.png" alt="image-20200307181139927"></p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><h3 id="K-V元素的数据集操作"><a href="#K-V元素的数据集操作" class="headerlink" title="K-V元素的数据集操作"></a>K-V元素的数据集操作</h3><blockquote>
+<p>都有shuffle,因为需要把相同key的数据作比较</p>
+<p>join,leftOuterJoin,rightOuterJoin,fullJoin底层实现都掉了cogroup方法,通过对cogroup的value扁平化后嵌套for循环,最后再判断输出结果,比如join的源码为:</p>
+<p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307185628282.png" alt="image-20200307185628282"></p>
+<p>两层循环有一个为空则不执行,所以是join操作</p>
+<h5 id="测试数据"><a href="#测试数据" class="headerlink" title="测试数据:"></a>测试数据:</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> kv1 = sc.parallelize(<span class="type">List</span>(</span><br><span class="line">  (<span class="string">"zhangsan"</span>, <span class="number">11</span>),</span><br><span class="line">  (<span class="string">"zhangsan"</span>, <span class="number">12</span>),</span><br><span class="line">  (<span class="string">"lisi"</span>, <span class="number">13</span>),</span><br><span class="line">  (<span class="string">"wangwu"</span>, <span class="number">14</span>)</span><br><span class="line">))</span><br><span class="line"><span class="keyword">val</span> kv2 = sc.parallelize(<span class="type">List</span>(</span><br><span class="line">  (<span class="string">"zhangsan"</span>, <span class="number">21</span>),</span><br><span class="line">  (<span class="string">"zhangsan"</span>, <span class="number">22</span>),</span><br><span class="line">  (<span class="string">"lisi"</span>, <span class="number">23</span>),</span><br><span class="line">  (<span class="string">"zhaoliu"</span>, <span class="number">28</span>)</span><br><span class="line">))</span><br></pre></td></tr></table></figure>
+
+
+</blockquote>
+<ul>
+<li><h4 id="cogroup"><a href="#cogroup" class="headerlink" title="cogroup"></a>cogroup</h4><blockquote>
+<h5 id="代码实现-2"><a href="#代码实现-2" class="headerlink" title="代码实现:"></a>代码实现:</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> cogroup = kv1.cogroup(kv2)</span><br><span class="line">cogroup.foreach(println)</span><br></pre></td></tr></table></figure>
+
+<h5 id="输出结果-3"><a href="#输出结果-3" class="headerlink" title="输出结果:"></a>输出结果:</h5><p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307183735134.png" alt="image-20200307183735134"></p>
+<p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307183749542.png" alt="image-20200307183749542"></p>
+</blockquote>
+</li>
+<li><h4 id="join"><a href="#join" class="headerlink" title="join"></a>join</h4><blockquote>
+<h5 id="代码实现-3"><a href="#代码实现-3" class="headerlink" title="代码实现:"></a>代码实现:</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> join = kv1.join(kv2)</span><br><span class="line">join.foreach(println)   <span class="comment">//两边都不为空才有输出结果</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="输出结果-4"><a href="#输出结果-4" class="headerlink" title="输出结果:"></a>输出结果:</h5><p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307184303503.png" alt="image-20200307184303503"></p>
+<p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307184315869.png" alt="image-20200307184315869"></p>
+</blockquote>
+</li>
+<li><h4 id="leftOuterJoin"><a href="#leftOuterJoin" class="headerlink" title="leftOuterJoin"></a>leftOuterJoin</h4><blockquote>
+<h5 id="代码实现-4"><a href="#代码实现-4" class="headerlink" title="代码实现:"></a>代码实现:</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> leftJoin = kv1.leftOuterJoin(kv2)</span><br><span class="line">leftJoin.foreach(println)</span><br></pre></td></tr></table></figure>
+
+<h5 id="输出结果-5"><a href="#输出结果-5" class="headerlink" title="输出结果:"></a>输出结果:</h5><p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307185213964.png" alt="image-20200307185213964"></p>
+<p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307185255433.png" alt="image-20200307185255433"></p>
+</blockquote>
+</li>
+<li><h4 id="rightOuterJoin"><a href="#rightOuterJoin" class="headerlink" title="rightOuterJoin"></a>rightOuterJoin</h4><blockquote>
+<h5 id="代码实现-5"><a href="#代码实现-5" class="headerlink" title="代码实现:"></a>代码实现:</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> rightJoin = kv1.rightOuterJoin(kv2)</span><br><span class="line">rightJoin.foreach(println)</span><br></pre></td></tr></table></figure>
+
+<h5 id="输出结果-6"><a href="#输出结果-6" class="headerlink" title="输出结果:"></a>输出结果:</h5><p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307185233398.png" alt="image-20200307185233398"></p>
+<p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307185307371.png" alt="image-20200307185307371"></p>
+</blockquote>
+</li>
+<li><h4 id="fullOuterJoin"><a href="#fullOuterJoin" class="headerlink" title="fullOuterJoin"></a>fullOuterJoin</h4><blockquote>
+<h5 id="代码实现-6"><a href="#代码实现-6" class="headerlink" title="代码实现:"></a>代码实现:</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> fullJoin = kv1.fullOuterJoin(kv2)</span><br><span class="line">fullJoin.foreach(println)</span><br></pre></td></tr></table></figure>
+
+<h5 id="输出结果-7"><a href="#输出结果-7" class="headerlink" title="输出结果:"></a>输出结果:</h5><p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307185853846.png" alt="image-20200307185853846"></p>
+<p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307185914324.png" alt="image-20200307185914324"></p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><h3 id="排序操作"><a href="#排序操作" class="headerlink" title="排序操作"></a>排序操作</h3><ul>
+<li><h4 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h4><blockquote>
+<p>对十三万左右的数据进行分析,分别取出前5的UV,PV</p>
+<p>数据格式(制表符分割):124.117.49.201  海南 2018-11-12 1542011090255  3854954330795803528  <a href="http://www.mi.com" target="_blank" rel="noopener">www.mi.com</a> Buy</p>
+</blockquote>
+<ul>
+<li><h5 id="PV分析"><a href="#PV分析" class="headerlink" title="PV分析"></a>PV分析</h5><blockquote>
+<h5 id="代码实现-7"><a href="#代码实现-7" class="headerlink" title="代码实现:"></a>代码实现:</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//124.117.49.201	海南	2018-11-12	1542011090255	3854954330795803528	www.mi.com	Buy</span></span><br><span class="line">    <span class="comment">//只需要网站地址</span></span><br><span class="line">    <span class="keyword">val</span> tupleRDD = dataRDD.map(line =&gt; (line.split(<span class="string">"\t"</span>)(<span class="number">5</span>), <span class="number">1</span>))  			<span class="comment">//(www.mi.com,1)</span></span><br><span class="line">    <span class="keyword">val</span> reduceRDD = tupleRDD.reduceByKey(_ + _) <span class="comment">//(www.mi.com,50)</span></span><br><span class="line">    <span class="keyword">val</span> swapRDD = reduceRDD.map(_.swap)   <span class="comment">//将key与value位置交换   (50,www.mi.com)</span></span><br><span class="line">    <span class="keyword">val</span> sortedRDD = swapRDD.sortByKey(<span class="literal">false</span>)   <span class="comment">// 对key做排序入参   true:升序  false:降序</span></span><br><span class="line">    <span class="keyword">val</span> resRDD = sortedRDD.take(<span class="number">5</span>).map(_.swap)  <span class="comment">//取出前5的数据然后再交换位置得到最终结果</span></span><br><span class="line">    resRDD.foreach(println)</span><br></pre></td></tr></table></figure>
+
+<h5 id="输出结果-8"><a href="#输出结果-8" class="headerlink" title="输出结果:"></a>输出结果:</h5><p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307212648625.png" alt="image-20200307212648625"></p>
+<p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307212727651.png" alt="image-20200307212727651"></p>
+</blockquote>
+</li>
+<li><h5 id="UV分析"><a href="#UV分析" class="headerlink" title="UV分析"></a>UV分析</h5><blockquote>
+<h5 id="代码实现-8"><a href="#代码实现-8" class="headerlink" title="代码实现:"></a>代码实现:</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//124.117.49.201	海南	2018-11-12	1542011090255	3854954330795803528	www.mi.com	Buy</span></span><br><span class="line">    <span class="comment">//需要IP地址与网站地址  因为是统计网站的用户量 所以还是站在网站的角度,所以还是网站作为key</span></span><br><span class="line">    <span class="keyword">val</span> tupRDD = dataRDD.map(line =&gt; &#123;</span><br><span class="line">      <span class="keyword">val</span> temp = line.split(<span class="string">"\t"</span>)</span><br><span class="line">      (temp(<span class="number">5</span>), temp(<span class="number">0</span>))</span><br><span class="line">    &#125;)   <span class="comment">//(www.mi.com,124.117.49.201)</span></span><br><span class="line">    <span class="keyword">val</span> distinctRDD = tupRDD.distinct    <span class="comment">//去重</span></span><br><span class="line">    <span class="keyword">val</span> pairRDD = distinctRDD.map(k =&gt; (k._1, <span class="number">1</span>))  <span class="comment">//将value置为1  (www.mi.com,1)</span></span><br><span class="line">    <span class="keyword">val</span> redRDD = pairRDD.reduceByKey(_ + _)</span><br><span class="line">    <span class="keyword">val</span> sortRDD = redRDD.sortBy(_._2, <span class="literal">false</span>)  <span class="comment">//第一个参数:排序的值,2:是否升序</span></span><br><span class="line">    <span class="keyword">val</span> result = sortRDD.take(<span class="number">5</span>)</span><br><span class="line">    result.foreach(println)</span><br></pre></td></tr></table></figure>
+
+<h5 id="输出结果-9"><a href="#输出结果-9" class="headerlink" title="输出结果:"></a>输出结果:</h5><p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307212944574.png" alt="image-20200307212944574"></p>
+<p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307212958084.png" alt="image-20200307212958084"></p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h3 id="聚合操作"><a href="#聚合操作" class="headerlink" title="聚合操作"></a>聚合操作</h3><blockquote>
+<h5 id="测试数据-1"><a href="#测试数据-1" class="headerlink" title="测试数据:"></a>测试数据:</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> data = sc.parallelize(<span class="type">List</span>(</span><br><span class="line">  (<span class="string">"zhangsan"</span>, <span class="number">234</span>),</span><br><span class="line">  (<span class="string">"zhangsan"</span>, <span class="number">5667</span>),</span><br><span class="line">  (<span class="string">"zhangsan"</span>, <span class="number">343</span>),</span><br><span class="line">  (<span class="string">"lisi"</span>, <span class="number">212</span>),</span><br><span class="line">  (<span class="string">"lisi"</span>, <span class="number">44</span>),</span><br><span class="line">  (<span class="string">"lisi"</span>, <span class="number">33</span>),</span><br><span class="line">  (<span class="string">"wangwu"</span>, <span class="number">535</span>),</span><br><span class="line">  (<span class="string">"wangwu"</span>, <span class="number">22</span>)</span><br><span class="line">))</span><br></pre></td></tr></table></figure>
+</blockquote>
+<ul>
+<li><h4 id="行列之间的转换"><a href="#行列之间的转换" class="headerlink" title="行列之间的转换"></a>行列之间的转换</h4><blockquote>
+<h5 id="代码实现-9"><a href="#代码实现-9" class="headerlink" title="代码实现:"></a>代码实现:</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//让相同的key作为一组  行转列的过程</span></span><br><span class="line">println(<span class="string">"---------group----------"</span>)</span><br><span class="line"><span class="keyword">val</span> group = data.groupByKey()</span><br><span class="line">group.foreach(println)</span><br><span class="line"></span><br><span class="line"><span class="comment">//列转行</span></span><br><span class="line">println(<span class="string">"---------恢复----------"</span>)</span><br><span class="line"><span class="comment">//把一个值转为多个值  一进多出所以使用flatMap</span></span><br><span class="line"><span class="keyword">val</span> resRDD = group.flatMap(pair =&gt; pair._2.map(x =&gt; (pair._1, x)))</span><br><span class="line">resRDD.foreach(println)</span><br><span class="line"></span><br><span class="line"><span class="comment">//列转行</span></span><br><span class="line">println(<span class="string">"---------恢复2----------"</span>)</span><br><span class="line"><span class="comment">//flatMapValues是直接返回value,所以传一个value的迭代器就行了</span></span><br><span class="line"><span class="keyword">val</span> resRDD2 = group.flatMapValues(_.iterator)</span><br><span class="line">resRDD2.foreach(println)</span><br></pre></td></tr></table></figure>
+
+<h5 id="输出结果-10"><a href="#输出结果-10" class="headerlink" title="输出结果:"></a>输出结果:</h5><p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307225948348.png" alt="image-20200307225948348"></p>
+<h5 id="扩展-取出最大的两个数"><a href="#扩展-取出最大的两个数" class="headerlink" title="扩展:取出最大的两个数"></a>扩展:取出最大的两个数</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//取出两个数值最大的</span></span><br><span class="line">   group.mapValues(_.toList.sorted.take(<span class="number">2</span>)).foreach(println)</span><br><span class="line"></span><br><span class="line">   println(<span class="string">"---------------------"</span>)</span><br><span class="line">   <span class="comment">//取出两个数值最大的,并且列转行</span></span><br><span class="line">   group.flatMapValues(_.toList.sorted.take(<span class="number">2</span>)).foreach(println)</span><br></pre></td></tr></table></figure>
+
+<h5 id="输出结果-11"><a href="#输出结果-11" class="headerlink" title="输出结果:"></a>输出结果:</h5><p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307230147933.png" alt="image-20200307230147933"></p>
+</blockquote>
+</li>
+<li><h4 id="sum、count、min、max、avg等计算"><a href="#sum、count、min、max、avg等计算" class="headerlink" title="sum、count、min、max、avg等计算"></a>sum、count、min、max、avg等计算</h4><blockquote>
+<h5 id="代码实现：-2"><a href="#代码实现：-2" class="headerlink" title="代码实现："></a>代码实现：</h5><h5 id="特别注意求平均值时如何让两个数据集根据key相遇"><a href="#特别注意求平均值时如何让两个数据集根据key相遇" class="headerlink" title="特别注意求平均值时如何让两个数据集根据key相遇"></a>特别注意求平均值时如何让两个数据集根据key相遇</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//求和</span></span><br><span class="line">println(<span class="string">"----------sum-----------"</span>)</span><br><span class="line">data.reduceByKey(_ + _).foreach(println)</span><br><span class="line"><span class="comment">//求总数</span></span><br><span class="line">println(<span class="string">"----------count-----------"</span>)</span><br><span class="line">data.mapValues(e =&gt; <span class="number">1</span>).reduceByKey(_ + _).foreach(println)</span><br><span class="line"><span class="comment">//求最小值</span></span><br><span class="line">println(<span class="string">"----------min-----------"</span>)</span><br><span class="line">data.reduceByKey((ov, nv) =&gt; <span class="keyword">if</span>(ov &gt; nv) nv <span class="keyword">else</span> ov).foreach(println)</span><br><span class="line"><span class="comment">//求最大值</span></span><br><span class="line">println(<span class="string">"----------max-----------"</span>)</span><br><span class="line">data.reduceByKey((ov, nv) =&gt; <span class="keyword">if</span>(ov &gt; nv) ov <span class="keyword">else</span> nv).foreach(println)</span><br><span class="line"><span class="comment">//求平均值</span></span><br><span class="line">println(<span class="string">"----------avg-----------"</span>)</span><br><span class="line"><span class="keyword">val</span> sum = data.reduceByKey(_ + _)</span><br><span class="line"><span class="keyword">val</span> count = data.mapValues(e =&gt; <span class="number">1</span>).reduceByKey(_ + _)</span><br><span class="line"><span class="comment">//让两个RDD根据key相遇的方法  用join</span></span><br><span class="line">sum.join(count).mapValues(e =&gt; e._1 / e._2).foreach(println)</span><br></pre></td></tr></table></figure>
+
+<h5 id="Stages图："><a href="#Stages图：" class="headerlink" title="Stages图："></a>Stages图：</h5><p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307233155557.png" alt="image-20200307233155557"></p>
+<h5 id="求平均值优化："><a href="#求平均值优化：" class="headerlink" title="求平均值优化："></a>求平均值优化：</h5><h5 id="优化思路："><a href="#优化思路：" class="headerlink" title="优化思路："></a>优化思路：</h5><blockquote>
+<p>观察Stages图发现同一个数据集被拉取了两次<code>两次各自的shuffle</code>，一次是直接拉取给一台机器，一次 是通过计算后拉取给一台机器。然后该机器拿到两批数据后先解决相遇的事，再解决逻辑的事，最后得到结果。</p>
+<p>问题：数据原来是拉取两次产生了各自独立的结果集，现在能不能拉取一次到内存计算就产生两个结果集，拉取计算完成之后再求出平均值</p>
+</blockquote>
+<h5 id="代码实现：-3"><a href="#代码实现：-3" class="headerlink" title="代码实现："></a>代码实现：</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//求平均值优化：</span></span><br><span class="line"> println(<span class="string">"----------avg优化-----------"</span>)</span><br><span class="line"> data.combineByKey(</span><br><span class="line">   <span class="comment">//      createCombiner: V =&gt; C,</span></span><br><span class="line">   <span class="comment">//第一条记录的 value  怎么放入 hashmap</span></span><br><span class="line">   value =&gt; (value,<span class="number">1</span>),</span><br><span class="line">   <span class="comment">//      mergeValue: (C, V) =&gt; C,</span></span><br><span class="line">   <span class="comment">//如果有第二条记录，第二条以及以后的他们的value怎么放到hashmap里：</span></span><br><span class="line">   (oldValue:(<span class="type">Int</span>, <span class="type">Int</span>),newValue) =&gt; (oldValue._1 + newValue, oldValue._2+<span class="number">1</span>),</span><br><span class="line">   <span class="comment">//      mergeCombiners: (C, C) =&gt; C,</span></span><br><span class="line">   <span class="comment">//合并溢写结果的函数：</span></span><br><span class="line">   (value1:(<span class="type">Int</span>, <span class="type">Int</span>),value2:(<span class="type">Int</span>, <span class="type">Int</span>)) =&gt; (value1._1 + value2._1, value1._2 + value2._2)</span><br><span class="line"> ).mapValues(e =&gt; e._1 / e._2).foreach(println)</span><br></pre></td></tr></table></figure>
+
+<h5 id="Stages图：-1"><a href="#Stages图：-1" class="headerlink" title="Stages图："></a>Stages图：</h5><p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307233208899.png" alt="image-20200307233208899"></p>
+<h5 id="对比："><a href="#对比：" class="headerlink" title="对比："></a>对比：</h5><blockquote>
+<p>原来时计算两次拉取两次聚合之后出结果</p>
+<p>优化后是计算一次拉取一次出结果</p>
+</blockquote>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><h3 id="分区操作"><a href="#分区操作" class="headerlink" title="分区操作"></a>分区操作</h3></li>
+</ul>
+<h2 id="进阶API"><a href="#进阶API" class="headerlink" title="进阶API"></a>进阶API</h2>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Spark RDD</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/大数据学习//" class="article-tag-list-link color1">大数据学习</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-TCP_IP协议" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -464,6 +716,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">计算机网络</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Spark RDD</a>
               </li>
             
             <div class="clearfix"></div>
