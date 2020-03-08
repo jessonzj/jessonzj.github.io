@@ -8,12 +8,12 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>RDD的API操作与调优(写作中...) | 张杰个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="基础API 带函数的非聚合 filter、map、flatMap等   1234&#x2F;&#x2F;要求：返回大于3的数val rdd1 &#x3D; sc.parallelize(List(1, 2, 3, 4, 5)) &#x2F;&#x2F;create算子,构造RDDval filterRes &#x3D; rdd1.filter(_ &gt; 3)   &#x2F;&#x2F;Transformation算子,从一个RDD转换为另一个RDDval array &#x3D;">
+  <meta name="description" content="目录简介 基础API ​    带函数的非聚合 ​    单元素的数据集操作 ​    KV元素的数据集操作 ​    排序操作 ​    聚合操作 ​    面向分区操作 进阶API ​    抽样 ​    重新分区 综合应用 ​    TopN实现">
 <meta property="og:type" content="article">
 <meta property="og:title" content="RDD的API操作与调优(写作中...)">
 <meta property="og:url" content="http://yoursite.com/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/index.html">
 <meta property="og:site_name" content="张杰个人博客">
-<meta property="og:description" content="基础API 带函数的非聚合 filter、map、flatMap等   1234&#x2F;&#x2F;要求：返回大于3的数val rdd1 &#x3D; sc.parallelize(List(1, 2, 3, 4, 5)) &#x2F;&#x2F;create算子,构造RDDval filterRes &#x3D; rdd1.filter(_ &gt; 3)   &#x2F;&#x2F;Transformation算子,从一个RDD转换为另一个RDDval array &#x3D;">
+<meta property="og:description" content="目录简介 基础API ​    带函数的非聚合 ​    单元素的数据集操作 ​    KV元素的数据集操作 ​    排序操作 ​    聚合操作 ​    面向分区操作 进阶API ​    抽样 ​    重新分区 综合应用 ​    TopN实现">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://yoursite.com/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307180004327.png">
 <meta property="og:image" content="http://yoursite.com/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307180056370.png">
@@ -255,7 +255,23 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="基础API"><a href="#基础API" class="headerlink" title="基础API"></a>基础API</h2><ul>
+        <h2 id="目录简介"><a href="#目录简介" class="headerlink" title="目录简介"></a>目录简介</h2><blockquote>
+<p>基础API</p>
+<p>​    带函数的非聚合</p>
+<p>​    单元素的数据集操作</p>
+<p>​    KV元素的数据集操作</p>
+<p>​    排序操作</p>
+<p>​    聚合操作</p>
+<p>​    面向分区操作</p>
+<p>进阶API</p>
+<p>​    抽样</p>
+<p>​    重新分区</p>
+<p>综合应用</p>
+<p>​    TopN实现</p>
+</blockquote>
+<a id="more"></a>
+
+<h2 id="基础API"><a href="#基础API" class="headerlink" title="基础API"></a>基础API</h2><ul>
 <li><h3 id="带函数的非聚合"><a href="#带函数的非聚合" class="headerlink" title="带函数的非聚合"></a>带函数的非聚合</h3><ul>
 <li><h4 id="filter、map、flatMap等"><a href="#filter、map、flatMap等" class="headerlink" title="filter、map、flatMap等"></a>filter、map、flatMap等</h4></li>
 </ul>
