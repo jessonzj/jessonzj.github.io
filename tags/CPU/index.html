@@ -6,25 +6,15 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>TCP/IP协议介绍 | 张杰个人博客</title>
+  <title>Tag: CPU | 张杰个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="目录 OSI七层模型简介 TCP&#x2F;IP协议 ​    应用层介绍 ​    传输控制层介绍 ​            TCP的三次握手 四次挥手 ​    网络层中IP寻址过程 ​    链路层简介 kernel简介">
-<meta property="og:type" content="article">
-<meta property="og:title" content="TCP&#x2F;IP协议介绍">
-<meta property="og:url" content="http://yoursite.com/2020/03/06/TCP_IP%E5%8D%8F%E8%AE%AE/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="张杰个人博客">
+<meta property="og:url" content="http://yoursite.com/tags/CPU/index.html">
 <meta property="og:site_name" content="张杰个人博客">
-<meta property="og:description" content="目录 OSI七层模型简介 TCP&#x2F;IP协议 ​    应用层介绍 ​    传输控制层介绍 ​            TCP的三次握手 四次挥手 ​    网络层中IP寻址过程 ​    链路层简介 kernel简介">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://yoursite.com/2020/03/06/TCP_IP%E5%8D%8F%E8%AE%AE/image-20200306131233036.png">
-<meta property="og:image" content="http://yoursite.com/2020/03/06/TCP_IP%E5%8D%8F%E8%AE%AE/image-20200306133427460.png">
-<meta property="og:image" content="http://yoursite.com/2020/03/06/TCP_IP%E5%8D%8F%E8%AE%AE/image-20200306152951758.png">
-<meta property="og:image" content="http://yoursite.com/2020/03/06/TCP_IP%E5%8D%8F%E8%AE%AE/image-20200306152631949.png">
-<meta property="article:published_time" content="2020-03-06T08:53:57.000Z">
-<meta property="article:modified_time" content="2020-03-06T08:53:57.000Z">
 <meta property="article:author" content="张杰">
-<meta property="article:tag" content="计算机网络">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/2020/03/06/TCP_IP%E5%8D%8F%E8%AE%AE/image-20200306131233036.png">
   
     <link rel="alternative" href="/atom.xml" title="张杰个人博客" type="application/atom+xml">
   
@@ -198,234 +188,48 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-TCP_IP协议" class="article article-type-post " itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
+            
   
-    <h1 class="article-title" itemprop="name">
-      TCP/IP协议介绍
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2020" class="archive-year">2020</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2020/03/08/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%BA%95%E5%B1%82%E9%9A%8F%E7%AC%94/" class="archive-article-date">
+  	<time datetime="2020-03-08T02:04:28.097Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-08</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2020/03/08/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%BA%95%E5%B1%82%E9%9A%8F%E7%AC%94/">计算机底层随记...(待完善)</a>
     </h1>
   
 
-        
-        <a href="/2020/03/06/TCP_IP%E5%8D%8F%E8%AE%AE/" class="archive-article-date">
-  	<time datetime="2020-03-06T08:53:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><blockquote>
-<p>OSI七层模型简介</p>
-<p>TCP/IP协议</p>
-<p>​    应用层介绍</p>
-<p>​    传输控制层介绍</p>
-<p>​            TCP的三次握手 四次挥手</p>
-<p>​    网络层中IP寻址过程</p>
-<p>​    链路层简介</p>
-<p>kernel简介</p>
-</blockquote>
-<a id="more"></a>
-
-<h2 id="OSI七层模型"><a href="#OSI七层模型" class="headerlink" title="OSI七层模型"></a>OSI七层模型</h2><ul>
-<li><h3 id="为什么要分层"><a href="#为什么要分层" class="headerlink" title="为什么要分层?"></a>为什么要分层?</h3><blockquote>
-<p>解耦,每层做自己的事，上下层通信通过调接口。接口不变内部实现可以换</p>
-</blockquote>
-</li>
-</ul>
-<ul>
-<li><h3 id="内容"><a href="#内容" class="headerlink" title="内容"></a>内容</h3><blockquote>
-<p>从上到下依次为：应用层、表示层、会话层、传输控制层、网络层、链路层、物理层</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="TCP-IP协议"><a href="#TCP-IP协议" class="headerlink" title="TCP/IP协议"></a>TCP/IP协议</h2><ul>
-<li><h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><blockquote>
-<p>TCP/IP协议对OSI模型进行了简化,包含应用层、传输层、网络层和数据链路层，有些地方也包含了物理层。</p>
-</blockquote>
-</li>
-</ul>
-<ul>
-<li><h3 id="应用层"><a href="#应用层" class="headerlink" title="应用层"></a>应用层</h3><blockquote>
-<p>主要的协议有HTTP、SMTP、FTP、SSH</p>
-<p>用来接收来自传输层的数据或者按不同应用要求与方式将数据传输至传输层</p>
-<p>根据协议判断数据是否加密或者压缩</p>
-<p>已经包含了OSI中的应用层、表示层和会话层</p>
-<p>直接为应用进程提供服务的。</p>
-</blockquote>
-</li>
-</ul>
-<ul>
-<li><h4 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h4><blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">在Linux中一切皆文件 该命令是将本机器对百度80端口的一个TCP连接通信抽象成某个录下的一个文件，8表示该socket  &lt;&gt; 表示输入输出</span><br><span class="line">exec 8&lt;&gt; &#x2F;dev&#x2F;tcp&#x2F;www.baidu.com&#x2F;80</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">将请求发给文件描述符8</span><br><span class="line">echo -e &quot;GET &#x2F; HTTP&#x2F;1.0\n&quot; &gt;&amp; 8</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">从文件描述符中获取请求结果</span><br><span class="line">cat &lt;&amp; 8</span><br></pre></td></tr></table></figure>
-
-<p><img src="/2020/03/06/TCP_IP%E5%8D%8F%E8%AE%AE/image-20200306131233036.png" alt="image-20200306131233036"></p>
-</blockquote>
-</li>
-</ul>
-<ul>
-<li><h3 id="传输控制层"><a href="#传输控制层" class="headerlink" title="传输控制层"></a>传输控制层</h3><blockquote>
-<p>主要的协议有TCP、UDP</p>
-<p>是使用者使用平台和计算机信息内部数据结合的通道，可以实现数据传输与数据共享</p>
-</blockquote>
-</li>
-</ul>
-<ul>
-<li><h4 id="UDP"><a href="#UDP" class="headerlink" title="UDP"></a>UDP</h4><blockquote>
-<p>用户数据报协议(User Datagram Protocol)</p>
-<p>无连接，尽最大可能交付，没有拥塞控制，面向报文</p>
-</blockquote>
-</li>
-</ul>
-<ul>
-<li><h4 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h4><blockquote>
-<h5 id="控制位"><a href="#控制位" class="headerlink" title="控制位"></a>控制位</h5><p>TCP首部中含有8位的控制位：分别是CWR,ECE,URG,ACK,PSH,RST,SYN,FIN</p>
-<p>ACK：该位设为1，确认应答的字段有效，TCP规定除了最初建立连接时的SYN包之外该位必须设为1</p>
-<p>SYN：用于建立连接，该位设为1，表示希望建立连接</p>
-<p>FIN：该位设为1，表示今后不再有数据发送，希望断开连接</p>
-<p>每个主机又对对方的FIN包进行确认应答之后可以断开连接。不过主机收到FIN设置为1的 TCP段之后不必马上回复一个FIN包，而是可以等到缓冲区中的所有数据都因为已成功发送而被自动删除之后再发FIN包，所以断开连接是四次挥手</p>
-</blockquote>
-<blockquote>
-<h5 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h5><p>客户端向服务端发送连接请求包，SYN=1</p>
-<p>服务端收到连接请求报文，如果同意连接，则向客户端发送连接确认报文，ACK=1，SYN=1</p>
-<p>客户端收到服务端的连接确认报文后再向服务端发出确认包，ACK=1</p>
-<p>第一次握手：服务端收到了客户端的连接请求包，这样服务端就知道客户端的发送能力以及自己的接收能力是正常的</p>
-<p>第二次握手：客户端收到了服务端的确认包，这样客户端就知道服务端的发送、接收能力以及自己的发送、接收能力是正常的</p>
-<p>第三次握手：服务端接收到客户端的确认包，这样服务端知道了客户端的接收能力以及自己的发送能力是正常的</p>
-<p>最终得出客户端、服务端都知道双方的发送、接收能力是正常的</p>
-</blockquote>
-<blockquote>
-<h5 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h5><p>A向B发送FIN包</p>
-<p>B收到A的FIN包后，因为TCP是可靠的连接所以会马上回一个ACK包，表示已经收到了</p>
-<p>B再向A发送FIN包，表示同意断开连接</p>
-<p>A再向B发送ACK包，表示确认收到，之后双方都会释放资源</p>
-<p>B收到A发送的FIN包后没有立刻回FIN包是因为此时只是一个方向的连接关闭，表示A不会再发送数据，但是B可以继续传输数据或者处理缓存中的数据，当处理完毕之后发送一个FIN包表示自己也想断开连接，最后收到A的ACK包之后再关闭连接</p>
-</blockquote>
-<blockquote>
-<h5 id="使用命令查看端口状态"><a href="#使用命令查看端口状态" class="headerlink" title="使用命令查看端口状态"></a>使用命令查看端口状态</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">net:network stat：status </span><br><span class="line">-n：不显示localhost字符代表而是使用IP地址 a:all，所有   t:tcp  p：pid，程序进程ID号</span><br><span class="line">netstat -natp</span><br></pre></td></tr></table></figure>
-
-<p><img src="/2020/03/06/TCP_IP%E5%8D%8F%E8%AE%AE/image-20200306133427460.png" alt="image-20200306133427460"></p>
-<p>netstat中的各种状态：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">closed 初始状态(无连接)</span><br><span class="line">listen：监听，等待远程机器的连接请求</span><br><span class="line">syn_send：在TCP三次握手期间，主动连接端发送了SYN包，正在等待对方的ACK包</span><br><span class="line">syn_recv：在三次握手期间，主动连接端收到SYN包后所处的状态</span><br><span class="line">established：完成三次握手后，主动连接端进入的状态，TCP连接已经建立，可以进行通信</span><br><span class="line">fin_wait_1：四次挥手时，主动关闭端发送FIN包后的状态</span><br><span class="line">fin_wait_2：四次挥手手，主动关闭端收到ACK包后的状态</span><br><span class="line">time_wait：四次挥手时，主动关闭端发送了ACK包后的状态</span><br><span class="line">closing：四次挥手期间，主动关闭端发送了FIN包后，没有收到对应的ACK包，却受到了对方的FIN包后进入的状态</span><br><span class="line">close_wait：四次挥手期间，被动关闭端收到FIN包后进入的状态</span><br><span class="line">Last_ack：四次挥手时，被动关闭端发送FIN包后进入的状态，等待对方的ACK包</span><br></pre></td></tr></table></figure>
-</blockquote>
-</li>
-</ul>
-<ul>
-<li><h3 id="网络层"><a href="#网络层" class="headerlink" title="网络层"></a>网络层</h3><blockquote>
-<p>主要的协议有IP协议、ARP协议、路由协议</p>
-</blockquote>
-</li>
-</ul>
-<ul>
-<li><h4 id="IP协议"><a href="#IP协议" class="headerlink" title="IP协议"></a>IP协议</h4><blockquote>
-<p>IP协议将32位的IP地址分为两部分，前面部分代表网络地址，后面部分表示该主机在局域网中的地址。如果两个IP地址在同一个子网内，则网络地址一定相同。为了判断IP地址中的网络地址，IP协议还引入了子网掩码，IP地址和子网掩码通过按位与运算后就可以得到网络地址</p>
-</blockquote>
-</li>
-</ul>
-<ul>
-<li><h4 id="ARP协议"><a href="#ARP协议" class="headerlink" title="ARP协议"></a>ARP协议</h4><blockquote>
-<p>即地址解析协议，是根据IP地址获取MAC地址的一个网络层协议。其工作原理如下：ARP首先会发起一个请求数据包，数据包的首部包含了目标主机的IP地址，然后这个数据包会在链路层进行再次包装，生成以太网数据包，最终由以太网广播给子网内的所有主机，每一台主机都会接收到这个数据包，并取出标头里的IP地址，然后和自己的IP地址进行比较，如果相同就返回自己的MAC地址，如果不同就丢弃该数据包。ARP接收返回消息，以此确定目标机的MAC地址；与此同时，ARP还会将返回的MAC地址与对应的IP地址存入本机ARP缓存中并保留一定时间，下次请求时直接查询ARP缓存以节约资源。</p>
-</blockquote>
-</li>
-</ul>
-<ul>
-<li><h4 id="路由协议"><a href="#路由协议" class="headerlink" title="路由协议"></a>路由协议</h4><blockquote>
-<p>首先通过IP协议来判断两台主机是否在同一个<a href="https://baike.baidu.com/item/子网/1186929" target="_blank" rel="noopener">子网</a>中，如果在同一个子网，就通过ARP协议查询对应的MAC地址，然后以广播的形式向该子网内的主机发送数据包；如果不在同一个子网，以太网会将该数据包转发给本子网的网关进行路由。<a href="https://baike.baidu.com/item/网关/98992" target="_blank" rel="noopener">网关</a>是<a href="https://baike.baidu.com/item/互联网/199186" target="_blank" rel="noopener">互联网</a>上子网与子网之间的桥梁，所以网关会进行多次转发，最终将该数据包转发到目标IP所在的子网中，然后再通过ARP获取目标机MAC，最终也是通过广播形式将数据包发送给接收方。而完成这个路由协议的物理设备就是<a href="https://baike.baidu.com/item/路由器/108294" target="_blank" rel="noopener">路由器</a>，路由器扮演着交通枢纽的角色，它会根据信道情况，选择并设定路由，以最佳路径来转发数据包。</p>
-</blockquote>
-</li>
-</ul>
-<ul>
-<li><h4 id="实践-1"><a href="#实践-1" class="headerlink" title="实践"></a>实践</h4><blockquote>
-<h5 id="IP地址寻找过程"><a href="#IP地址寻找过程" class="headerlink" title="IP地址寻找过程"></a>IP地址寻找过程</h5><p>比如ping <a href="http://www.baidu.com" target="_blank" rel="noopener">www.baidu.com</a>  域名解析后的IP地址为：104.193.88.77</p>
-<ol>
-<li>将104.193.88.77与下面路由表的子网掩码<code>255.255.255.0</code>按位与运算得到网络地址<code>104.193.88.77</code>，与192.168.1.0不一致</li>
-<li>继续与子网掩码<code>0.0.0.0</code>按位与运算得到网络地址<code>0.0.0.0</code>，与0.0.0.0一致</li>
-<li>将数据发给网关<code>192.168.1.1</code></li>
-<li>网关进行路由把数据给下一跳地址，多次转发之后到达百度所在子网</li>
-<li>通过ARP获取目标MAC地址，最终通过广播形式将数据包发送给百度</li>
-</ol>
-<p>每次跳跃时数据包中的目标IP地址与自己的IP地址不会变，一直在变的是包装在外层的MAC地址</p>
-<p><img src="/2020/03/06/TCP_IP%E5%8D%8F%E8%AE%AE/image-20200306152951758.png" alt="image-20200306152951758"></p>
-<p><img src="/2020/03/06/TCP_IP%E5%8D%8F%E8%AE%AE/image-20200306152631949.png" alt="image-20200306152631949"></p>
-<p>如果是在同一个子网中</p>
-<ol>
-<li>直接通过ARP协议查询对应的MAC地址，然后以广播的形式向该子网内的主机发送数据包</li>
-</ol>
-</blockquote>
-</li>
-</ul>
-<ul>
-<li><h3 id="链路层"><a href="#链路层" class="headerlink" title="链路层"></a>链路层</h3><blockquote>
-<p>主要的协议有点对点协议、以太网协议</p>
-<p>作用是将数据组合成快<code>帧</code></p>
-<p>控制帧的传输</p>
-</blockquote>
-</li>
-</ul>
-<ul>
-<li><h4 id="传输过程"><a href="#传输过程" class="headerlink" title="传输过程"></a>传输过程</h4><blockquote>
-<p>根据MAC地址，以太网采用广播的形式，把数据包发给该子网内所有主机，子网内每台主机在接收到这个包之后会读取首部里的MAC地址，然后和自己的MAC地址进行比对，如果相同就做下一步处理，如果不同就丢弃这个包</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="Kernel"><a href="#Kernel" class="headerlink" title="Kernel"></a>Kernel</h2><ul>
-<li><h3 id="介绍-1"><a href="#介绍-1" class="headerlink" title="介绍"></a>介绍</h3><blockquote>
-<p>计算机操作系统中的内核</p>
-<p>向下管理所有的硬件，向上为大部分应用程序提供API开发<code>系统调用</code></p>
-<p>应用程序访问内核，再通过一个内核协调硬件</p>
-<p>内核也是一个程序，实现了传输控制层、网络层、链路层</p>
-<p>所以开发时不需要考虑怎么实现这三层，只需要new 一个socket就可以获得一个连接</p>
-</blockquote>
-</li>
-</ul>
-
-      
-
-      
-        <div class="page-reward">
-          <a href="javascript:;" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
-                  <div class="reward-box">
-                    
-                    
-                  </div>
-                </span>
-              </span>
-            </span>
-          </div>
-          </a>
-        </div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">计算机网络</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">CPU</a>
         		</li>
       		
 		</ul>
 	</div>
 
-      
+          
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
@@ -438,113 +242,17 @@
 	</div>
 
 
-      
-
-      
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
         </div>
-      </div>
-    </span>
-  </div>
-</div>
-
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/03/06/TCP_IP%E5%8D%8F%E8%AE%AE/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-      
-      <div class="clearfix"></div>
-    </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          RDD的API操作与调优(写作中...)
-        
-      </div>
-    </a>
   
   
-    <a href="/2020/03/05/Spark-WC%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Spark-WC源码分析</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-  
-  
+    </div></section>
   
 
-  
-
-  
-
-  
+    
 
 
           </div>
@@ -567,9 +275,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: true,
+		isPost: false,
 		isArchive: false,
-		isTag: false,
+		isTag: true,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,

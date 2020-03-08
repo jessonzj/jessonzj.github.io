@@ -6,11 +6,11 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>RDD的API实践与调优 | 张杰个人博客</title>
+  <title>RDD的API操作与调优(写作中...) | 张杰个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="基础API 带函数的非聚合 filter、map、flatMap等   1234&#x2F;&#x2F;要求：返回大于3的数val rdd1 &#x3D; sc.parallelize(List(1, 2, 3, 4, 5)) &#x2F;&#x2F;create算子,构造RDDval filterRes &#x3D; rdd1.filter(_ &gt; 3)   &#x2F;&#x2F;Transformation算子,从一个RDD转换为另一个RDDval array &#x3D;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="RDD的API实践与调优">
+<meta property="og:title" content="RDD的API操作与调优(写作中...)">
 <meta property="og:url" content="http://yoursite.com/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/index.html">
 <meta property="og:site_name" content="张杰个人博客">
 <meta property="og:description" content="基础API 带函数的非聚合 filter、map、flatMap等   1234&#x2F;&#x2F;要求：返回大于3的数val rdd1 &#x3D; sc.parallelize(List(1, 2, 3, 4, 5)) &#x2F;&#x2F;create算子,构造RDDval filterRes &#x3D; rdd1.filter(_ &gt; 3)   &#x2F;&#x2F;Transformation算子,从一个RDD转换为另一个RDDval array &#x3D;">
@@ -44,6 +44,18 @@
 <meta property="og:image" content="http://yoursite.com/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307230147933.png">
 <meta property="og:image" content="http://yoursite.com/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307233155557.png">
 <meta property="og:image" content="http://yoursite.com/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200307233208899.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200308140845333.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200308141942173.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200308143122585.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200308145037912.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200308145153877.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200308145753923.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200308145744127.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200308150346361.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200308190159243.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200308191620485.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200308193404397.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200308201314343.png">
 <meta property="article:published_time" content="2020-03-07T06:05:39.000Z">
 <meta property="article:modified_time" content="2020-03-07T06:05:39.000Z">
 <meta property="article:author" content="张杰">
@@ -230,7 +242,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      RDD的API实践与调优
+      RDD的API操作与调优(写作中...)
     </h1>
   
 
@@ -409,9 +421,137 @@
 </li>
 </ul>
 </li>
-<li><h3 id="分区操作"><a href="#分区操作" class="headerlink" title="分区操作"></a>分区操作</h3></li>
+<li><h3 id="面向分区操作"><a href="#面向分区操作" class="headerlink" title="面向分区操作"></a>面向分区操作</h3><h3 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h3><blockquote>
+<h5 id="需求"><a href="#需求" class="headerlink" title="需求:"></a>需求:</h5><blockquote>
+<p>根据每条记录到数据库里查询数据</p>
+</blockquote>
+<h5 id="测试数据-2"><a href="#测试数据-2" class="headerlink" title="测试数据:"></a>测试数据:</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> data = sc.parallelize(<span class="number">1</span> to <span class="number">10</span>, <span class="number">2</span>)  <span class="comment">//构造1-10的序列，分配到两个分区中</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<ul>
+<li><h4 id="思路一"><a href="#思路一" class="headerlink" title="思路一"></a>思路一</h4><blockquote>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> res1 = data.map(value =&gt; &#123;</span><br><span class="line">  println(<span class="string">"-----conn--mysql-------"</span>)</span><br><span class="line">  println(<span class="string">s"-----select--<span class="subst">$value</span>-------"</span>)</span><br><span class="line">  println(<span class="string">"-----close--mysql-------"</span>)</span><br><span class="line">  value + <span class="string">"_selected"</span></span><br><span class="line">&#125;)</span><br><span class="line">res1.foreach(println)</span><br></pre></td></tr></table></figure>
+
+<h5 id="输出结果-12"><a href="#输出结果-12" class="headerlink" title="输出结果:"></a>输出结果:</h5><p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200308140845333.png" alt="image-20200308140845333"></p>
+<h5 id="存在的问题"><a href="#存在的问题" class="headerlink" title="存在的问题:"></a>存在的问题:</h5><blockquote>
+<p>每次查询都要获取-关闭连接的过程</p>
+</blockquote>
+</blockquote>
+</li>
+<li><h4 id="思路二"><a href="#思路二" class="headerlink" title="思路二"></a>思路二</h4><blockquote>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> res2 = data.mapPartitionsWithIndex((pIndex, pIter) =&gt; &#123;</span><br><span class="line">  <span class="keyword">val</span> lb = <span class="keyword">new</span> <span class="type">ListBuffer</span>[<span class="type">String</span>]</span><br><span class="line">  <span class="comment">//在迭代数据外面连接、关闭数据库</span></span><br><span class="line">  println(<span class="string">"-----conn--mysql-------"</span>)</span><br><span class="line">  <span class="keyword">while</span> (pIter.hasNext) &#123;</span><br><span class="line">    <span class="keyword">val</span> value = pIter.next()</span><br><span class="line">    println(<span class="string">s"---<span class="subst">$pIndex</span>--select <span class="subst">$value</span>-----"</span>)</span><br><span class="line">    lb.+=(value + <span class="string">"_selected"</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  println(<span class="string">"-----close--mysql-------"</span>)</span><br><span class="line">  <span class="comment">//方法参数是需要函数返回迭代器</span></span><br><span class="line">  lb.iterator</span><br><span class="line">&#125;)</span><br><span class="line">res2.foreach(println)</span><br></pre></td></tr></table></figure>
+
+<h4 id="输出结果：-1"><a href="#输出结果：-1" class="headerlink" title="输出结果："></a>输出结果：</h4><p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200308141942173.png" alt="image-20200308141942173"></p>
+<h5 id="存在的问题："><a href="#存在的问题：" class="headerlink" title="存在的问题："></a>存在的问题：</h5><blockquote>
+<p>虽然是每个分区连接一次数据库，但是存在一个非常致命的问题，因为这是大数据，当数据量非常大的时候需要把他们放在ListBuffer里会造成内存溢出</p>
+<p>根据之前源码发现Spark就是一个pipeline迭代器嵌套的模式，所以解决问题还是用迭代器解决</p>
+</blockquote>
+</blockquote>
+</li>
+<li><h4 id="思路三"><a href="#思路三" class="headerlink" title="思路三"></a>思路三</h4><blockquote>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> res3 = data.mapPartitionsWithIndex((pIndex, pIter) =&gt; &#123;</span><br><span class="line">  <span class="comment">//直接new 一个迭代器</span></span><br><span class="line">  <span class="keyword">new</span> <span class="type">Iterator</span>[<span class="type">String</span>] &#123;</span><br><span class="line">    println(<span class="string">"-----conn--mysql-------"</span>) <span class="comment">//构造迭代器时 连接数据库</span></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">hasNext</span></span>: <span class="type">Boolean</span> = &#123;</span><br><span class="line">      <span class="keyword">if</span> (!pIter.hasNext) &#123; <span class="comment">//当没有数据时关闭连接</span></span><br><span class="line">        println(<span class="string">"-----close--mysql-------"</span>)</span><br><span class="line">        <span class="literal">false</span></span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">next</span></span>(): <span class="type">String</span> = &#123;</span><br><span class="line">      <span class="keyword">val</span> value = pIter.next()</span><br><span class="line">      println(<span class="string">s"---<span class="subst">$pIndex</span>--select <span class="subst">$value</span>-----"</span>)</span><br><span class="line">      value + <span class="string">"_selected"</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line">res3.foreach(println)</span><br></pre></td></tr></table></figure>
+
+<h5 id="输出结果：-2"><a href="#输出结果：-2" class="headerlink" title="输出结果："></a>输出结果：</h5><p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200308143122585.png" alt="image-20200308143122585"></p>
+<h5 id="解析："><a href="#解析：" class="headerlink" title="解析："></a>解析：</h5><blockquote>
+<p>与上面的方法一样，是每个分区连接一次数据库，但是这次是通过迭代器，获取一条数据就查回一套数据并返回，之前的是获取一条数据查询后返回但ListBuffer中，最后再输出</p>
+</blockquote>
+</blockquote>
+</li>
 </ul>
-<h2 id="进阶API"><a href="#进阶API" class="headerlink" title="进阶API"></a>进阶API</h2>
+</li>
+</ul>
+<h2 id="进阶API"><a href="#进阶API" class="headerlink" title="进阶API"></a>进阶API</h2><ul>
+<li><h3 id="抽样"><a href="#抽样" class="headerlink" title="抽样"></a>抽样</h3><blockquote>
+<h5 id="代码实现：-4"><a href="#代码实现：-4" class="headerlink" title="代码实现："></a>代码实现：</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">   <span class="keyword">val</span> data = sc.parallelize(<span class="number">1</span> to <span class="number">100</span>, <span class="number">5</span>) <span class="comment">//构造1-100的序列，分配到5个分区中</span></span><br><span class="line">   <span class="comment">//withReplacement:是否重复   fraction：抽样比率，并不是绝对的，会多也会少   </span></span><br><span class="line"><span class="comment">//seed：种子，当种子相同时从同一批数据抽到的结果是一样的</span></span><br><span class="line">   data.sample(<span class="literal">false</span>,<span class="number">0.1</span>).foreach(println)</span><br><span class="line">   println(<span class="string">"------------------------------"</span>)</span><br><span class="line">   data.sample(<span class="literal">true</span>,<span class="number">0.2</span>).foreach(println)</span><br><span class="line">   println(<span class="string">"------------------------------"</span>)</span><br><span class="line">   data.sample(<span class="literal">true</span>,<span class="number">0.2</span>,<span class="number">111</span>).foreach(println)</span><br><span class="line">   println(<span class="string">"------------------------------"</span>)</span><br><span class="line">   data.sample(<span class="literal">true</span>,<span class="number">0.2</span>,<span class="number">111</span>).foreach(println)</span><br></pre></td></tr></table></figure>
+</blockquote>
+</li>
+<li><h3 id="重新分区"><a href="#重新分区" class="headerlink" title="重新分区"></a>重新分区</h3><blockquote>
+<h5 id="测试数据：-1"><a href="#测试数据：-1" class="headerlink" title="测试数据："></a>测试数据：</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> data = sc.parallelize(<span class="number">1</span> to <span class="number">10</span>, <span class="number">5</span>) <span class="comment">//构造1-10的序列，分配到5个分区中</span></span><br></pre></td></tr></table></figure>
+
+
+</blockquote>
+<ul>
+<li><h4 id="repartition"><a href="#repartition" class="headerlink" title="repartition"></a>repartition</h4><blockquote>
+<h5 id="代码实现-10"><a href="#代码实现-10" class="headerlink" title="代码实现:"></a>代码实现:</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> data1 = data.mapPartitionsWithIndex((pIndex, pIter) =&gt; &#123;</span><br><span class="line">  pIter.map(e =&gt; (pIndex, e)) <span class="comment">//让value带上原始的分区号，以便后续观察</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> reData = data1.repartition(<span class="number">8</span>)</span><br><span class="line"><span class="keyword">val</span> resData = reData.mapPartitionsWithIndex((pIndex, pIter) =&gt; &#123;</span><br><span class="line">  pIter.map(e =&gt; (pIndex, e)) <span class="comment">//让value带上新的分区号，以便观察</span></span><br><span class="line">&#125;)</span><br><span class="line">resData.foreach(println)</span><br></pre></td></tr></table></figure>
+
+<h5 id="输出结果：-3"><a href="#输出结果：-3" class="headerlink" title="输出结果："></a>输出结果：</h5><p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200308145037912.png" alt="image-20200308145037912"></p>
+<h5 id="解析：-1"><a href="#解析：-1" class="headerlink" title="解析："></a>解析：</h5><blockquote>
+<p>分区全部已经被随机打乱，同时repartition方法调用了coalesce方法，同时会有shuffle</p>
+<p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200308145153877.png" alt="image-20200308145153877"></p>
+</blockquote>
+</blockquote>
+</li>
+<li><h4 id="coalesce"><a href="#coalesce" class="headerlink" title="coalesce"></a>coalesce</h4><ul>
+<li><h5 id="第一种情况"><a href="#第一种情况" class="headerlink" title="第一种情况"></a>第一种情况</h5><blockquote>
+<h5 id="代码实现：-5"><a href="#代码实现：-5" class="headerlink" title="代码实现："></a>代码实现：</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> coaRDD = data1.coalesce(<span class="number">8</span>, <span class="literal">false</span>) <span class="comment">//传true时与repartition方法一样</span></span><br><span class="line"><span class="keyword">val</span> resData1 = coaRDD.mapPartitionsWithIndex((pIndex, pIter) =&gt; &#123;</span><br><span class="line">  pIter.map(e =&gt; (pIndex, e)) <span class="comment">//让value带上新的分区号，以便观察</span></span><br><span class="line">&#125;)</span><br><span class="line">resData1.foreach(println)</span><br></pre></td></tr></table></figure>
+
+<h5 id="输出结果：-4"><a href="#输出结果：-4" class="headerlink" title="输出结果："></a>输出结果：</h5><p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200308145753923.png" alt="image-20200308145753923"></p>
+<p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200308145744127.png" alt="image-20200308145744127"></p>
+<h5 id="解析：-2"><a href="#解析：-2" class="headerlink" title="解析："></a>解析：</h5><blockquote>
+<p>当不shuffle时就不会使用分区器来重新计算自己的分区号，数据就不知道自己要去哪个分区，所以就不会有数据移动</p>
+</blockquote>
+</blockquote>
+</li>
+<li><h5 id="第二种情况"><a href="#第二种情况" class="headerlink" title="第二种情况"></a>第二种情况</h5><blockquote>
+<h5 id="代码实现：-6"><a href="#代码实现：-6" class="headerlink" title="代码实现："></a>代码实现：</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> coaRDD = data1.coalesce(<span class="number">3</span>, <span class="literal">false</span>)</span><br><span class="line"><span class="keyword">val</span> resData1 = coaRDD.mapPartitionsWithIndex((pIndex, pIter) =&gt; &#123;</span><br><span class="line">  pIter.map(e =&gt; (pIndex, e)) <span class="comment">//让value带上新的分区号，以便观察</span></span><br><span class="line">&#125;)</span><br><span class="line">resData1.foreach(println)</span><br></pre></td></tr></table></figure>
+
+<h5 id="输出结果：-5"><a href="#输出结果：-5" class="headerlink" title="输出结果："></a>输出结果：</h5><p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200308150346361.png" alt="image-20200308150346361"></p>
+<h5 id="解析：-3"><a href="#解析：-3" class="headerlink" title="解析："></a>解析：</h5><blockquote>
+<p>当重新分区时新的分区数量小于之前的分区数量时会通过IO拉取其他分区的数据，因为没有分区器重新计算分区号，所以会导致某个分区的全部数量来到一个分区，同时原来的分区数据也不会变</p>
+</blockquote>
+</blockquote>
+</li>
+</ul>
+<p>​     </p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="综合应用"><a href="#综合应用" class="headerlink" title="综合应用"></a>综合应用</h2><ul>
+<li><h3 id="计算TopN"><a href="#计算TopN" class="headerlink" title="计算TopN"></a>计算TopN</h3><blockquote>
+<h5 id="需求："><a href="#需求：" class="headerlink" title="需求："></a>需求：</h5><p>求出同月份中 温度最高的两天</p>
+<p>数据格式： 2019-6-1  39</p>
+<h5 id="数据准备："><a href="#数据准备：" class="headerlink" title="数据准备："></a>数据准备：</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//2019-6-1	39</span></span><br><span class="line"><span class="keyword">val</span> file = sc.textFile(<span class="string">"data/tqdata"</span>)</span><br><span class="line"><span class="keyword">val</span> data = file.map(line =&gt; &#123;</span><br><span class="line">  <span class="keyword">val</span> arr = line.split(<span class="string">"\t"</span>)</span><br><span class="line">  <span class="keyword">val</span> dateArr = arr(<span class="number">0</span>).split(<span class="string">"-"</span>)</span><br><span class="line">  (dateArr(<span class="number">0</span>).toInt, dateArr(<span class="number">1</span>).toInt, dateArr(<span class="number">2</span>).toInt, arr(<span class="number">1</span>).toInt)</span><br><span class="line">&#125;)  <span class="comment">//转换成 (year,month,day,temperature)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//隐式转换</span></span><br><span class="line"><span class="keyword">implicit</span> <span class="keyword">val</span> implicitSorted = <span class="keyword">new</span> <span class="type">Ordering</span>[(<span class="type">Int</span>, <span class="type">Int</span>)] &#123;</span><br><span class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">compare</span></span>(x: (<span class="type">Int</span>, <span class="type">Int</span>), y: (<span class="type">Int</span>, <span class="type">Int</span>)): <span class="type">Int</span> = &#123;</span><br><span class="line">    <span class="comment">//x.y是返回x.compareTo(y)的结果，即升序，这是降序所以写y.x</span></span><br><span class="line">    y._2.compareTo(x._2)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<ul>
+<li><h4 id="第一代"><a href="#第一代" class="headerlink" title="第一代"></a>第一代</h4><blockquote>
+<h5 id="代码实现：-7"><a href="#代码实现：-7" class="headerlink" title="代码实现："></a>代码实现：</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//因为是根据月份求TopN，所以先将年月作为key并分组</span></span><br><span class="line"><span class="keyword">val</span> grouped = data.map(t4 =&gt; ((t4._1, t4._2), (t4._3, t4._4))).groupByKey()</span><br><span class="line"><span class="comment">// grouped数据格式：((2019,6),CompactBuffer((1,39), (1,38), (2,31)))</span></span><br><span class="line"><span class="comment">//去除重复数据，只保留一天中的最高温度</span></span><br><span class="line"><span class="keyword">val</span> result = grouped.mapValues(arr =&gt; &#123;</span><br><span class="line">  <span class="keyword">val</span> map = <span class="keyword">new</span> mutable.<span class="type">HashMap</span>[<span class="type">Int</span>, <span class="type">Int</span>]()</span><br><span class="line">  arr.foreach(t2 =&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> (map.get(t2._1).getOrElse(<span class="number">0</span>) &lt; t2._2)</span><br><span class="line">      map.put(t2._1, t2._2)</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="comment">//因为sorted默认是升序排序，如果要降序则要重写排序规则</span></span><br><span class="line">  <span class="comment">//后面的方法会把这的实现写成隐式函数，则默认传隐式函数，这可以不写</span></span><br><span class="line">  map.toList.sorted(<span class="keyword">new</span> <span class="type">Ordering</span>[(<span class="type">Int</span>, <span class="type">Int</span>)] &#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">compare</span></span>(x: (<span class="type">Int</span>, <span class="type">Int</span>), y: (<span class="type">Int</span>, <span class="type">Int</span>)): <span class="type">Int</span> = &#123;</span><br><span class="line">      <span class="comment">//x.y是返回x.compareTo(y)的结果，即升序，这是降序所以写y.x</span></span><br><span class="line">      y._2.compareTo(x._2)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;).take(<span class="number">2</span>)</span><br><span class="line">&#125;)</span><br><span class="line">result.foreach(println)</span><br></pre></td></tr></table></figure>
+
+<h5 id="输出结果：-6"><a href="#输出结果：-6" class="headerlink" title="输出结果："></a>输出结果：</h5><p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200308190159243.png" alt="image-20200308190159243"></p>
+<h5 id="解析：-4"><a href="#解析：-4" class="headerlink" title="解析："></a>解析：</h5><blockquote>
+<p>虽然只有一次shuffle，但是有两个缺点，第一个则是用了hashMap，容易OOM，第二个则是用了groupByKey方法，这个方法会将数据拉取到内存中，会造成内存溢出</p>
+</blockquote>
+</blockquote>
+</li>
+<li><h4 id="第二代"><a href="#第二代" class="headerlink" title="第二代"></a>第二代</h4><blockquote>
+<h5 id="代码实现：-8"><a href="#代码实现：-8" class="headerlink" title="代码实现："></a>代码实现：</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 把年月日作为key温度作为value，只保留一天中最高温度的数据</span></span><br><span class="line"><span class="keyword">val</span> reduced = data.map(t4 =&gt; ((t4._1, t4._2, t4._3), t4._4))</span><br><span class="line">  .reduceByKey((ov, nv) =&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> (ov &gt; nv) ov <span class="keyword">else</span> nv</span><br><span class="line">  &#125;)</span><br><span class="line"><span class="comment">//转换成 (year,month),(day,temperature)方便计算每月的最高温度的两天</span></span><br><span class="line"><span class="keyword">val</span> maped = reduced.map((t2 =&gt; ((t2._1._1, t2._1._2), (t2._1._3, t2._2))))</span><br><span class="line"><span class="comment">//将每个月的数据分成一组</span></span><br><span class="line"><span class="keyword">val</span> grouped = maped.groupByKey()</span><br><span class="line">grouped.mapValues(arr =&gt; arr.toList.take(<span class="number">2</span>)).foreach(println)</span><br></pre></td></tr></table></figure>
+
+<h5 id="输出结果-13"><a href="#输出结果-13" class="headerlink" title="输出结果:"></a>输出结果:</h5><p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200308191620485.png" alt="image-20200308191620485"></p>
+<h5 id="解析"><a href="#解析" class="headerlink" title="解析:"></a>解析:</h5><blockquote>
+<p>还是用了groupByKey,容易造成OOM,取巧:用了reduceByKey的取max方法间接达到了去重,是去了重再group的,风险相比第一种降低</p>
+</blockquote>
+</blockquote>
+</li>
+<li><h4 id="第三代"><a href="#第三代" class="headerlink" title="第三代"></a>第三代</h4><blockquote>
+<h5 id="代码实现-11"><a href="#代码实现-11" class="headerlink" title="代码实现:"></a>代码实现:</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//首先直接对数据根据年月温度降序排序</span></span><br><span class="line"><span class="keyword">val</span> sorted = data.sortBy(t4 =&gt; (t4._1, t4._2, t4._4), <span class="literal">false</span>)</span><br><span class="line"><span class="comment">// 把年月日作为key温度作为value，只保留一天中最高温度的数据</span></span><br><span class="line"><span class="keyword">val</span> reduced = sorted.map(t4 =&gt; ((t4._1, t4._2, t4._3), t4._4))</span><br><span class="line">  .reduceByKey((ov, nv) =&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> (ov &gt; nv) ov <span class="keyword">else</span> nv</span><br><span class="line">  &#125;)</span><br><span class="line"><span class="comment">//转换成 (year,month),(day,temperature)方便计算每月的最高温度的两天</span></span><br><span class="line"><span class="keyword">val</span> maped = reduced.map((t2 =&gt; ((t2._1._1, t2._1._2), (t2._1._3, t2._2))))</span><br><span class="line"><span class="comment">//将每个月的数据分成一组</span></span><br><span class="line"><span class="keyword">val</span> grouped = maped.groupByKey()</span><br><span class="line">grouped.mapValues(arr =&gt; arr.toList.take(<span class="number">2</span>)).foreach(println)</span><br></pre></td></tr></table></figure>
+
+<h5 id="输出结果-14"><a href="#输出结果-14" class="headerlink" title="输出结果:"></a>输出结果:</h5><p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200308193404397.png" alt="image-20200308193404397"></p>
+<h5 id="解析-1"><a href="#解析-1" class="headerlink" title="解析:"></a>解析:</h5><blockquote>
+<p>用了group会容易OOM  取巧:用了RDD的reduceByKey去重,用了sortBy排序</p>
+<p>注意:多级shuffle时后续的shuffle的key一定得是前置RDD key的子集,不然会打乱排序,比如这0<del>1的key是(year,month,temperature),而在2</del>2时的key为(year,month,day),最后group时可能会打乱顺序</p>
+</blockquote>
+</blockquote>
+</li>
+<li><h4 id="第四代"><a href="#第四代" class="headerlink" title="第四代"></a>第四代</h4><blockquote>
+<h5 id="代码实现-12"><a href="#代码实现-12" class="headerlink" title="代码实现:"></a>代码实现:</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> sorted = data.sortBy(t4 =&gt; (t4._1, t4._2, t4._4), <span class="literal">false</span>)</span><br><span class="line"><span class="keyword">val</span> grouped = sorted.map(t4 =&gt; ((t4._1, t4._2), (t4._3, t4._4))).groupByKey() <span class="comment">//没有实现去重,一天有多个数据</span></span><br><span class="line">grouped.foreach(println)</span><br></pre></td></tr></table></figure>
+
+<h5 id="输出结果-15"><a href="#输出结果-15" class="headerlink" title="输出结果:"></a>输出结果:</h5><p><img src="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/image-20200308201314343.png" alt="image-20200308201314343"></p>
+<h5 id="解析-2"><a href="#解析-2" class="headerlink" title="解析:"></a>解析:</h5><p>用了groupByKey  容易OOM  取巧：用了spark 的RDD  sortByKey 排序  没有破坏多级shuffle的key的子集关系</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+
       
 
       
@@ -526,9 +666,18 @@
   
 <nav id="article-nav">
   
+    <a href="/2020/03/08/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%BA%95%E5%B1%82%E9%9A%8F%E7%AC%94/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          计算机底层随记...(待完善)
+        
+      </div>
+    </a>
+  
   
     <a href="/2020/03/06/TCP_IP%E5%8D%8F%E8%AE%AE/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">TCP_IP协议</div>
+      <div class="article-nav-title">TCP/IP协议介绍</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -655,6 +804,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Spark RDD</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">CPU</a>
               </li>
             
             <div class="clearfix"></div>
