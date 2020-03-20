@@ -6,15 +6,24 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | 张杰个人博客</title>
+  <title>Idea编译时报包不存在 | 张杰个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="张杰个人博客">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+  <meta name="description" content="问题说明 idea中导入项目时可能存在以下的错误 编译项目时：程序包XXX不存在，但实际上是存在的，Java文件中也没有报错，maven仓库中也有依赖包   解决办法 对存在的问题项目，执行maven命令 mvn -U idea:idea    执行成功后再编译时不会报错了，同时启动也能正常启动">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Idea编译时报包不存在">
+<meta property="og:url" content="http://yoursite.com/2020/03/20/Idea%E7%BC%96%E8%AF%91%E6%97%B6%E6%8A%A5%E5%8C%85%E4%B8%8D%E5%AD%98%E5%9C%A8error/index.html">
 <meta property="og:site_name" content="张杰个人博客">
+<meta property="og:description" content="问题说明 idea中导入项目时可能存在以下的错误 编译项目时：程序包XXX不存在，但实际上是存在的，Java文件中也没有报错，maven仓库中也有依赖包   解决办法 对存在的问题项目，执行maven命令 mvn -U idea:idea    执行成功后再编译时不会报错了，同时启动也能正常启动">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yoursite.com/2020/03/20/Idea%E7%BC%96%E8%AF%91%E6%97%B6%E6%8A%A5%E5%8C%85%E4%B8%8D%E5%AD%98%E5%9C%A8error/image-20200320130758768.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/20/Idea%E7%BC%96%E8%AF%91%E6%97%B6%E6%8A%A5%E5%8C%85%E4%B8%8D%E5%AD%98%E5%9C%A8error/image-20200320131015182.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/20/Idea%E7%BC%96%E8%AF%91%E6%97%B6%E6%8A%A5%E5%8C%85%E4%B8%8D%E5%AD%98%E5%9C%A8error/image-20200320131221435.png">
+<meta property="article:published_time" content="2020-03-20T05:04:33.807Z">
+<meta property="article:modified_time" content="2020-03-20T05:04:33.807Z">
 <meta property="article:author" content="张杰">
+<meta property="article:tag" content="idea">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2020/03/20/Idea%E7%BC%96%E8%AF%91%E6%97%B6%E6%8A%A5%E5%8C%85%E4%B8%8D%E5%AD%98%E5%9C%A8error/image-20200320130758768.png">
   
     <link rel="alternative" href="/atom.xml" title="张杰个人博客" type="application/atom+xml">
   
@@ -188,36 +197,68 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-Idea编译时报包不存在error" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/03/20/Idea%E7%BC%96%E8%AF%91%E6%97%B6%E6%8A%A5%E5%8C%85%E4%B8%8D%E5%AD%98%E5%9C%A8error/" class="archive-article-date">
-  	<time datetime="2020-03-20T05:04:33.807Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-20</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/03/20/Idea%E7%BC%96%E8%AF%91%E6%97%B6%E6%8A%A5%E5%8C%85%E4%B8%8D%E5%AD%98%E5%9C%A8error/">Idea编译时报包不存在</a>
+    <h1 class="article-title" itemprop="name">
+      Idea编译时报包不存在
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2020/03/20/Idea%E7%BC%96%E8%AF%91%E6%97%B6%E6%8A%A5%E5%8C%85%E4%B8%8D%E5%AD%98%E5%9C%A8error/" class="archive-article-date">
+  	<time datetime="2020-03-20T05:04:33.807Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-20</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="问题说明"><a href="#问题说明" class="headerlink" title="问题说明"></a>问题说明</h2><blockquote>
+<p>idea中导入项目时可能存在以下的错误</p>
+<p>编译项目时：程序包XXX不存在，但实际上是存在的，Java文件中也没有报错，maven仓库中也有依赖包</p>
+<p><img src="/2020/03/20/Idea%E7%BC%96%E8%AF%91%E6%97%B6%E6%8A%A5%E5%8C%85%E4%B8%8D%E5%AD%98%E5%9C%A8error/image-20200320130758768.png" alt="image-20200320130758768"></p>
+</blockquote>
+<h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><blockquote>
+<p>对存在的问题项目，执行maven命令 mvn -U idea:idea</p>
+<p><img src="/2020/03/20/Idea%E7%BC%96%E8%AF%91%E6%97%B6%E6%8A%A5%E5%8C%85%E4%B8%8D%E5%AD%98%E5%9C%A8error/image-20200320131015182.png" alt="image-20200320131015182"></p>
+</blockquote>
+<blockquote>
+<p>执行成功后再编译时不会报错了，同时启动也能正常启动</p>
+<p><img src="/2020/03/20/Idea%E7%BC%96%E8%AF%91%E6%97%B6%E6%8A%A5%E5%8C%85%E4%B8%8D%E5%AD%98%E5%9C%A8error/image-20200320131221435.png" alt="image-20200320131221435"></p>
+</blockquote>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -229,7 +270,7 @@
 		</ul>
 	</div>
 
-          
+      
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
@@ -242,213 +283,104 @@
 	</div>
 
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/03/20/Idea%E7%BC%96%E8%AF%91%E6%97%B6%E6%8A%A5%E5%8C%85%E4%B8%8D%E5%AD%98%E5%9C%A8error/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/03/08/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%BA%95%E5%B1%82%E9%9A%8F%E7%AC%94/" class="archive-article-date">
-  	<time datetime="2020-03-08T02:04:28.097Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-08</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2020/03/08/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%BA%95%E5%B1%82%E9%9A%8F%E7%AC%94/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">计算机底层随记...(待完善)</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/03/08/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%BA%95%E5%B1%82%E9%9A%8F%E7%AC%94/">计算机底层随记...(待完善)</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">CPU</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/计算机基础//" class="article-tag-list-link color1">计算机基础</a>
-        		</li>
-      		
-		</ul>
-	</div>
+        
+        
+    </div>
+</aside>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/" class="archive-article-date">
-  	<time datetime="2020-03-07T06:05:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-07</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/03/07/RDD%E7%9A%84API%E5%AE%9E%E8%B7%B5%E4%B8%8E%E8%B0%83%E4%BC%98/">RDD的API操作与调优(写作中...)</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Spark RDD</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/大数据学习//" class="article-tag-list-link color1">大数据学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/03/06/TCP_IP%E5%8D%8F%E8%AE%AE/" class="archive-article-date">
-  	<time datetime="2020-03-06T08:53:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/03/06/TCP_IP%E5%8D%8F%E8%AE%AE/">TCP/IP协议介绍</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">计算机网络</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/计算机基础//" class="article-tag-list-link color1">计算机基础</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/03/05/Spark-WC%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" class="archive-article-date">
-  	<time datetime="2020-03-05T08:18:19.337Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/03/05/Spark-WC%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">Spark-WC源码分析</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Sprak</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/大数据学习//" class="article-tag-list-link color1">大数据学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
   
-    </div></section>
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -471,8 +403,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
