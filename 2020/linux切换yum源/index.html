@@ -6,16 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>tags | 张杰个人博客</title>
+  <title>Linux中切换yum源 | 张杰个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="tags">
-<meta property="og:url" content="http://yoursite.com/tags/index.html">
+  <meta name="description" content="linux切换yum源1、需要提前安装wget命令1yum install wget -y  2、切换到yum的安装目录1&#x2F;etc&#x2F;yum.repos.d&#x2F;  3、将所有的已经存在的文件添加备份​        1、给文件该名称添加.bak​        2、创建backup目录，将所有的文件移动进去 4、打开镜像网站  https:&#x2F;&#x2F;mirrors.aliyun">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux中切换yum源">
+<meta property="og:url" content="http://yoursite.com/2020/linux%E5%88%87%E6%8D%A2yum%E6%BA%90/index.html">
 <meta property="og:site_name" content="张杰个人博客">
+<meta property="og:description" content="linux切换yum源1、需要提前安装wget命令1yum install wget -y  2、切换到yum的安装目录1&#x2F;etc&#x2F;yum.repos.d&#x2F;  3、将所有的已经存在的文件添加备份​        1、给文件该名称添加.bak​        2、创建backup目录，将所有的文件移动进去 4、打开镜像网站  https:&#x2F;&#x2F;mirrors.aliyun">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-03-05T06:56:42.000Z">
-<meta property="article:modified_time" content="2020-03-05T06:56:42.736Z">
+<meta property="article:published_time" content="2020-02-22T16:43:51.000Z">
+<meta property="article:modified_time" content="2020-02-22T16:43:51.000Z">
 <meta property="article:author" content="张杰">
+<meta property="article:tag" content="Linux">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="张杰个人博客" type="application/atom+xml">
@@ -190,27 +193,39 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="page-" class="article article-type-page " itemscope itemprop="blogPost">
+            <article id="post-linux切换yum源" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      tags
+      Linux中切换yum源
     </h1>
   
 
         
-        <a href="/tags/index.html" class="archive-article-date">
-  	<time datetime="2020-03-05T06:56:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-05</time>
+        <a href="/2020/linux%E5%88%87%E6%8D%A2yum%E6%BA%90/" class="archive-article-date">
+  	<time datetime="2020-02-22T16:43:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-23</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <h1 id="linux切换yum源"><a href="#linux切换yum源" class="headerlink" title="linux切换yum源"></a>linux切换yum源</h1><h5 id="1、需要提前安装wget命令"><a href="#1、需要提前安装wget命令" class="headerlink" title="1、需要提前安装wget命令"></a>1、需要提前安装wget命令</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install wget -y</span><br></pre></td></tr></table></figure>
+
+<h5 id="2、切换到yum的安装目录"><a href="#2、切换到yum的安装目录" class="headerlink" title="2、切换到yum的安装目录"></a>2、切换到yum的安装目录</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;etc&#x2F;yum.repos.d&#x2F;</span><br></pre></td></tr></table></figure>
+
+<h5 id="3、将所有的已经存在的文件添加备份"><a href="#3、将所有的已经存在的文件添加备份" class="headerlink" title="3、将所有的已经存在的文件添加备份"></a>3、将所有的已经存在的文件添加备份</h5><p>​        1、给文件该名称添加.bak<br>​        2、创建backup目录，将所有的文件移动进去</p>
+<h5 id="4、打开镜像网站-https-mirrors-aliyun-com"><a href="#4、打开镜像网站-https-mirrors-aliyun-com" class="headerlink" title="4、打开镜像网站  https://mirrors.aliyun.com"></a>4、打开镜像网站  <a href="https://mirrors.aliyun.com" target="_blank" rel="noopener">https://mirrors.aliyun.com</a></h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget -O &#x2F;etc&#x2F;yum.repos.d&#x2F;CentOS-Base.repo http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;repo&#x2F;Centos-6.repo</span><br></pre></td></tr></table></figure>
+
+<h5 id="5、清除yum的已有缓存"><a href="#5、清除yum的已有缓存" class="headerlink" title="5、清除yum的已有缓存"></a>5、清除yum的已有缓存</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum clean all</span><br></pre></td></tr></table></figure>
+
+<h5 id="6、生成yum的缓存"><a href="#6、生成yum的缓存" class="headerlink" title="6、生成yum的缓存"></a>6、生成yum的缓存</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum makecache</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：yum缓存这块说的多一点，yum的安装方式其实也是rpm包的安装方式，但是rpm包在安装的时候需要很多rpm包的依赖，因此需要将rpm包的依赖关系下载到本地，防止每次频繁的向镜像网站发送请求，因此在第6步骤的时候需要将rpm的依赖关系下载到本地，放置到缓存中</strong></p>
+
       
 
       
@@ -239,7 +254,29 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/计算机基础//" class="article-tag-list-link color1">计算机基础</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
 
       
 
@@ -289,7 +326,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/tags/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/linux%E5%88%87%E6%8D%A2yum%E6%BA%90/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -301,6 +338,20 @@
 </article>
 
   
+<nav id="article-nav">
+  
+    <a href="/2020/linux%E5%AE%89%E8%A3%85mysql%E6%AD%A5%E9%AA%A4/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Linux中安装mysql
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -351,7 +402,7 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,

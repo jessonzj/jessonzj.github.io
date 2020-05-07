@@ -380,37 +380,7 @@
 <p>Hive安装目录下的conf文件夹下的hive-site.xml中增加如下配置</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&lt;property&gt;</span><br><span class="line">&lt;name&gt;hbase.zookeeper.quorum&lt;&#x2F;name&gt;</span><br><span class="line">&lt;value&gt;node02,node03,node04&lt;&#x2F;value&gt;</span><br><span class="line">&gt;&lt;&#x2F;property&gt;</span><br></pre></td></tr></table></figure>
 </blockquote>
-<h2 id="二、Hive中新建与Hbase关联映射的表-内部表"><a href="#二、Hive中新建与Hbase关联映射的表-内部表" class="headerlink" title="二、Hive中新建与Hbase关联映射的表(内部表)"></a>二、Hive中新建与Hbase关联映射的表(内部表)</h2><blockquote>
-<p>1、执行脚本后Hbase中也会生成该表    <code>Hive官网中提供的脚本</code></p>
-<p><img src="/2020/Hive%E4%B8%8EHBase%E7%9A%84%E6%95%B4%E5%90%88/image-20200507150611627.png" alt="image-20200507150611627"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;CREATE TABLE hbase_table_1(key int, value string) </span><br><span class="line">&gt;STORED BY &#39;org.apache.hadoop.hive.hbase.HBaseStorageHandler&#39;</span><br><span class="line">&gt;WITH SERDEPROPERTIES (&quot;hbase.columns.mapping&quot; &#x3D; &quot;:key,cf1:val&quot;)</span><br><span class="line">&gt;TBLPROPERTIES (&quot;hbase.table.name&quot; &#x3D; &quot;xyz&quot;, &quot;hbase.mapred.output.outputtable&quot; &#x3D; &quot;xyz&quot;);</span><br></pre></td></tr></table></figure>
-
-<p>2、Hive中向表中插入数据</p>
-<p><img src="/2020/Hive%E4%B8%8EHBase%E7%9A%84%E6%95%B4%E5%90%88/image-20200507151709128.png" alt="image-20200507151709128"></p>
-</blockquote>
-<p>3、Hbase中查询数据，在Hive、Hbase的表中都有数据，</p>
-<p>但是HDFS中Hive对应的文件夹中没有数据，数据储存在HDFS中Hbase对应的文件中</p>
-<p><img src="/2020/Hive%E4%B8%8EHBase%E7%9A%84%E6%95%B4%E5%90%88/image-20200507151909776.png" alt="image-20200507151909776"></p>
-<p>4、Hbase里向表中插入不同列的数据，插入相同列时Hive能查询到数据</p>
-<p><img src="/2020/Hive%E4%B8%8EHBase%E7%9A%84%E6%95%B4%E5%90%88/image-20200507152321493.png" alt="image-20200507152321493"></p>
-<p>5、Hive中查询表数据，没有Hbase中新增的数据，因为只映射了val列，并没有映射name列</p>
-<p><img src="/2020/Hive%E4%B8%8EHBase%E7%9A%84%E6%95%B4%E5%90%88/image-20200507152354757.png" alt="image-20200507152354757"></p>
-<h2 id="三、Hive中新建与Hbase关联映射的表-内部表"><a href="#三、Hive中新建与Hbase关联映射的表-内部表" class="headerlink" title="三、Hive中新建与Hbase关联映射的表(内部表)"></a>三、Hive中新建与Hbase关联映射的表(内部表)</h2><blockquote>
-<p>1、Hive创建外部表时Hbase必须已经存在此表</p>
-<p>Hbase中创建表</p>
-<p><img src="/2020/Hive%E4%B8%8EHBase%E7%9A%84%E6%95%B4%E5%90%88/image-20200507153607051.png" alt="image-20200507153607051"></p>
-<p>2、Hive中创建外部表</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;CREATE EXTERNAL TABLE hbase_table_2(key int, value string) </span><br><span class="line">&gt;STORED BY &#39;org.apache.hadoop.hive.hbase.HBaseStorageHandler&#39;</span><br><span class="line">&gt;WITH SERDEPROPERTIES (&quot;hbase.columns.mapping&quot; &#x3D; &quot;cf1:val&quot;)</span><br><span class="line">&gt;TBLPROPERTIES(&quot;hbase.table.name&quot; &#x3D; &quot;some&quot;, &quot;hbase.mapred.output.outputtable&quot; &#x3D; &quot;some&quot;);</span><br></pre></td></tr></table></figure>
-
-
-
-<p>总结：</p>
-<p>向Hbase中插入数据时Hive中也能查询到，这些与内部表一样</p>
-<p>不管是内部表还是外部表，最终数据都保存在Hbase中</p>
-<p>什么时候使用外部表？</p>
-<p>如果Hbase中已经存在了表之后，而又要Hive映射Hbase此表，就需要Hive创建外部表</p>
-</blockquote>
-
+        
       
 
       
@@ -946,6 +916,196 @@
 
 
   
+    <article id="post-linux安装mysql步骤" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/linux%E5%AE%89%E8%A3%85mysql%E6%AD%A5%E9%AA%A4/">Linux中安装mysql</a>
+    </h1>
+  
+
+        
+        <a href="/2020/linux%E5%AE%89%E8%A3%85mysql%E6%AD%A5%E9%AA%A4/" class="archive-article-date">
+  	<time datetime="2020-02-24T03:25:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-24</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="linux安装mysql步骤"><a href="#linux安装mysql步骤" class="headerlink" title="linux安装mysql步骤"></a>linux安装mysql步骤</h1><h5 id="1、在linux上使用yum的方式安装软件"><a href="#1、在linux上使用yum的方式安装软件" class="headerlink" title="1、在linux上使用yum的方式安装软件"></a>1、在linux上使用yum的方式安装软件</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install mysql-server -y</span><br></pre></td></tr></table></figure>
+
+<h5 id="2、启动mysql的服务"><a href="#2、启动mysql的服务" class="headerlink" title="2、启动mysql的服务"></a>2、启动mysql的服务</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service mysqld start</span><br></pre></td></tr></table></figure>
+
+<h5 id="3、将mysql服务设置成开机启动（有些同学关闭虚拟机之后，下次重新启动的时候可能忘记开启服务，因此将mysql服务设置完开机启动，不会占用太多的开机时间）"><a href="#3、将mysql服务设置成开机启动（有些同学关闭虚拟机之后，下次重新启动的时候可能忘记开启服务，因此将mysql服务设置完开机启动，不会占用太多的开机时间）" class="headerlink" title="3、将mysql服务设置成开机启动（有些同学关闭虚拟机之后，下次重新启动的时候可能忘记开启服务，因此将mysql服务设置完开机启动，不会占用太多的开机时间）"></a>3、将mysql服务设置成开机启动（有些同学关闭虚拟机之后，下次重新启动的时候可能忘记开启服务，因此将mysql服务设置完开机启动，不会占用太多的开机时间）</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chkconfig mysqld on</span><br></pre></td></tr></table></figure>
+
+<h5 id="4、进入到mysql的命令行，敲击以下命令"><a href="#4、进入到mysql的命令行，敲击以下命令" class="headerlink" title="4、进入到mysql的命令行，敲击以下命令"></a>4、进入到mysql的命令行，敲击以下命令</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql</span><br></pre></td></tr></table></figure>
+
+<h5 id="5、mysql命令行命令-安装完mysql之后需要修改mysql的登录权限"><a href="#5、mysql命令行命令-安装完mysql之后需要修改mysql的登录权限" class="headerlink" title="5、mysql命令行命令(安装完mysql之后需要修改mysql的登录权限)"></a>5、mysql命令行命令(安装完mysql之后需要修改mysql的登录权限)</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--切换数据库</span></span><br><span class="line">	<span class="keyword">use</span> mysql</span><br><span class="line"><span class="comment">--查看表</span></span><br><span class="line">	<span class="keyword">show</span> <span class="keyword">tables</span></span><br><span class="line"><span class="comment">--查看表的数据</span></span><br><span class="line">	<span class="keyword">select</span>  host,<span class="keyword">user</span>,<span class="keyword">password</span> <span class="keyword">from</span> <span class="keyword">user</span>;</span><br><span class="line"><span class="comment">--插入权限数据</span></span><br><span class="line">	<span class="keyword">grant</span> <span class="keyword">all</span> <span class="keyword">privileges</span> <span class="keyword">on</span> *.* <span class="keyword">to</span> <span class="string">'root'</span>@<span class="string">'%'</span> <span class="keyword">identified</span> <span class="keyword">by</span> <span class="string">'123'</span> <span class="keyword">with</span> <span class="keyword">grant</span> <span class="keyword">option</span></span><br><span class="line"><span class="comment">--删除本机的用户访问权限（可以执行也可以不执行）	</span></span><br><span class="line">	<span class="keyword">delete</span> <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> host!=<span class="string">'%'</span></span><br><span class="line"><span class="comment">--刷新权限或者重启mysqld的服务</span></span><br><span class="line">	service mysqld restart;<span class="comment">--（重启mysql服务）</span></span><br><span class="line">	<span class="keyword">flush</span> <span class="keyword">privileges</span>;<span class="comment">--(刷新权限)</span></span><br></pre></td></tr></table></figure>
+
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Linux Mysql</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/计算机基础//" class="article-tag-list-link color1">计算机基础</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/linux%E5%AE%89%E8%A3%85mysql%E6%AD%A5%E9%AA%A4/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-linux切换yum源" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/linux%E5%88%87%E6%8D%A2yum%E6%BA%90/">Linux中切换yum源</a>
+    </h1>
+  
+
+        
+        <a href="/2020/linux%E5%88%87%E6%8D%A2yum%E6%BA%90/" class="archive-article-date">
+  	<time datetime="2020-02-22T16:43:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-23</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="linux切换yum源"><a href="#linux切换yum源" class="headerlink" title="linux切换yum源"></a>linux切换yum源</h1><h5 id="1、需要提前安装wget命令"><a href="#1、需要提前安装wget命令" class="headerlink" title="1、需要提前安装wget命令"></a>1、需要提前安装wget命令</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install wget -y</span><br></pre></td></tr></table></figure>
+
+<h5 id="2、切换到yum的安装目录"><a href="#2、切换到yum的安装目录" class="headerlink" title="2、切换到yum的安装目录"></a>2、切换到yum的安装目录</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;etc&#x2F;yum.repos.d&#x2F;</span><br></pre></td></tr></table></figure>
+
+<h5 id="3、将所有的已经存在的文件添加备份"><a href="#3、将所有的已经存在的文件添加备份" class="headerlink" title="3、将所有的已经存在的文件添加备份"></a>3、将所有的已经存在的文件添加备份</h5><p>​        1、给文件该名称添加.bak<br>​        2、创建backup目录，将所有的文件移动进去</p>
+<h5 id="4、打开镜像网站-https-mirrors-aliyun-com"><a href="#4、打开镜像网站-https-mirrors-aliyun-com" class="headerlink" title="4、打开镜像网站  https://mirrors.aliyun.com"></a>4、打开镜像网站  <a href="https://mirrors.aliyun.com" target="_blank" rel="noopener">https://mirrors.aliyun.com</a></h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget -O &#x2F;etc&#x2F;yum.repos.d&#x2F;CentOS-Base.repo http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;repo&#x2F;Centos-6.repo</span><br></pre></td></tr></table></figure>
+
+<h5 id="5、清除yum的已有缓存"><a href="#5、清除yum的已有缓存" class="headerlink" title="5、清除yum的已有缓存"></a>5、清除yum的已有缓存</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum clean all</span><br></pre></td></tr></table></figure>
+
+<h5 id="6、生成yum的缓存"><a href="#6、生成yum的缓存" class="headerlink" title="6、生成yum的缓存"></a>6、生成yum的缓存</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum makecache</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：yum缓存这块说的多一点，yum的安装方式其实也是rpm包的安装方式，但是rpm包在安装的时候需要很多rpm包的依赖，因此需要将rpm包的依赖关系下载到本地，防止每次频繁的向镜像网站发送请求，因此在第6步骤的时候需要将rpm的依赖关系下载到本地，放置到缓存中</strong></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/计算机基础//" class="article-tag-list-link color1">计算机基础</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/linux%E5%88%87%E6%8D%A2yum%E6%BA%90/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
   
 
 
@@ -1052,6 +1212,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Linux Mysql</a>
               </li>
             
             <div class="clearfix"></div>
