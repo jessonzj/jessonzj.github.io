@@ -8,17 +8,18 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>Flume的使用 | 张杰个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Flume的介绍 日志收集系统,可以将各种来源的日志收集到HDFS或者Hbase中  Flume的使用其实就是Source、Channel、Sink的配置 Agent&#x3D;Source+Channel+Sink，其实agent就是Flume的配置文件 一个配置文件可以配置多个Agent的。 Event：Flume数据传输的最小单位，一个EVent就是一条记录，由head和body两个部分组成，head">
+  <meta name="description" content="Flume的介绍 日志收集系统,可以将各种来源的日志收集到HDFS或者Hbase中 更多配置参考官网  Flume的使用其实就是Source、Channel、Sink的配置 Agent&#x3D;Source+Channel+Sink，其实agent就是Flume的配置文件 一个配置文件可以配置多个Agent的。 Event：Flume数据传输的最小单位，一个EVent就是一条记录，由head和body两个">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Flume的使用">
 <meta property="og:url" content="http://yoursite.com/2020/Flume%E7%9A%84%E4%BD%BF%E7%94%A8/index.html">
 <meta property="og:site_name" content="张杰个人博客">
-<meta property="og:description" content="Flume的介绍 日志收集系统,可以将各种来源的日志收集到HDFS或者Hbase中  Flume的使用其实就是Source、Channel、Sink的配置 Agent&#x3D;Source+Channel+Sink，其实agent就是Flume的配置文件 一个配置文件可以配置多个Agent的。 Event：Flume数据传输的最小单位，一个EVent就是一条记录，由head和body两个部分组成，head">
+<meta property="og:description" content="Flume的介绍 日志收集系统,可以将各种来源的日志收集到HDFS或者Hbase中 更多配置参考官网  Flume的使用其实就是Source、Channel、Sink的配置 Agent&#x3D;Source+Channel+Sink，其实agent就是Flume的配置文件 一个配置文件可以配置多个Agent的。 Event：Flume数据传输的最小单位，一个EVent就是一条记录，由head和body两个">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://yoursite.com/2020/Flume%E7%9A%84%E4%BD%BF%E7%94%A8/1326937-20190610172619436-307927136.png">
 <meta property="og:image" content="http://yoursite.com/2020/Flume%E7%9A%84%E4%BD%BF%E7%94%A8/image-20200507001023714.png">
 <meta property="og:image" content="http://yoursite.com/2020/Flume%E7%9A%84%E4%BD%BF%E7%94%A8/image-20200507002236282.png">
 <meta property="og:image" content="http://yoursite.com/2020/Flume%E7%9A%84%E4%BD%BF%E7%94%A8/1326937-20190610172656614-941910746.png">
+<meta property="og:image" content="http://yoursite.com/2020/Flume%E7%9A%84%E4%BD%BF%E7%94%A8/image-20200507092208918.png">
 <meta property="article:published_time" content="2020-03-06T16:04:58.000Z">
 <meta property="article:modified_time" content="2020-03-06T16:04:58.000Z">
 <meta property="article:author" content="张杰">
@@ -219,6 +220,7 @@
       
         <h2 id="Flume的介绍"><a href="#Flume的介绍" class="headerlink" title="Flume的介绍"></a>Flume的介绍</h2><blockquote>
 <p>日志收集系统,可以将各种来源的日志收集到HDFS或者Hbase中</p>
+<p>更多配置参考官网</p>
 <ol>
 <li>Flume的使用其实就是Source、Channel、Sink的配置</li>
 <li>Agent=Source+Channel+Sink，其实agent就是Flume的配置文件</li>
@@ -228,6 +230,8 @@
 <p>三大组件：Source、Channel、sink</p>
 <p><img src="/2020/Flume%E7%9A%84%E4%BD%BF%E7%94%A8/1326937-20190610172619436-307927136.png" alt="img"></p>
 </blockquote>
+<a id="more"></a>
+
 <h2 id="Flume的安装与配置"><a href="#Flume的安装与配置" class="headerlink" title="Flume的安装与配置"></a>Flume的安装与配置</h2><blockquote>
 <p>1、解压后修改  conf目录下的 flume-env.sh 文件中的JAVA_HOME</p>
 <p><img src="/2020/Flume%E7%9A%84%E4%BD%BF%E7%94%A8/image-20200507001023714.png" alt="image-20200507001023714"></p>
@@ -247,6 +251,33 @@
 
 <p>注意：绑定的主机与端口号要一致</p>
 <p><img src="/2020/Flume%E7%9A%84%E4%BD%BF%E7%94%A8/1326937-20190610172656614-941910746.png" alt="img"></p>
+</blockquote>
+<h2 id="从指定文件中读取数据"><a href="#从指定文件中读取数据" class="headerlink" title="从指定文件中读取数据"></a>从指定文件中读取数据</h2><blockquote>
+<p>源配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;# Describe&#x2F;configure the source</span><br><span class="line">&gt;a1.sources.r1.type &#x3D; exec</span><br><span class="line">&gt;a1.sources.r1.command &#x3D; tail -F &#x2F;root&#x2F;log</span><br></pre></td></tr></table></figure>
+
+<p>注意：</p>
+<p>1、虽然会实时监控该日志文件，但是 tail -F会是一个单独的进程监控，有挂掉的风险，而且该方法只能监控一个文件</p>
+<p>2、可以使用tail命令控制每次启动从多少行读取</p>
+</blockquote>
+<h2 id="从指定文件目录中读取数据"><a href="#从指定文件目录中读取数据" class="headerlink" title="从指定文件目录中读取数据"></a>从指定文件目录中读取数据</h2><blockquote>
+<p>源配置  需要提前创建好目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;# Describe&#x2F;configure the source</span><br><span class="line">&gt;a1.sources.r1.type &#x3D; spooldir</span><br><span class="line">&gt;a1.sources.r1.spoolDir &#x3D; &#x2F;root&#x2F;data&#x2F;</span><br><span class="line">&gt;a1.sources.r1.fileSuffix&#x3D;.abc     &#x2F;&#x2F;文件读取完之后会加上此后缀</span><br><span class="line">&gt;a1.sources.r1.fileHeader &#x3D; true  &#x2F;&#x2F;输出时会加上headers，内容是文件的绝对路径</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/Flume%E7%9A%84%E4%BD%BF%E7%94%A8/image-20200507092208918.png" alt="image-20200507092208918"></p>
+<p>注意：</p>
+<p>1、重复启动时不会重复读取，因为读取完后会加上配置中的后缀，默认是completed</p>
+<p>2、若采集时Flume挂了，无法保证重启时还从之前文件读取的那一行继续采集数据</p>
+<p>3、不能监控文件夹中的文件夹里的内容</p>
+<p>4、要想保证断点续传在1.7版本及以后提供了Taildir Source源，每次读取会将偏移量写到json文件中</p>
+</blockquote>
+<h2 id="输出到HDFS中"><a href="#输出到HDFS中" class="headerlink" title="输出到HDFS中"></a>输出到HDFS中</h2><blockquote>
+<p>输出配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt;# Describe the sink</span><br><span class="line">&gt;a1.sinks.k1.type &#x3D; hdfs</span><br><span class="line">&gt;a1.sinks.k1.hdfs.path &#x3D; &#x2F;flume&#x2F;events&#x2F;%y-%m-%d&#x2F;%H%M&#x2F;%S</span><br><span class="line">&gt;a1.sinks.k1.hdfs.filePrefix &#x3D; events-</span><br><span class="line">&gt;a1.sinks.k1.hdfs.round &#x3D; true</span><br><span class="line">&gt;a1.sinks.k1.hdfs.roundValue &#x3D; 10  #每10秒开启一个新的文件夹，注意，不是文件</span><br><span class="line">&gt;a1.sinks.k1.hdfs.roundUnit &#x3D; second</span><br><span class="line">&gt;a1.sinks.k1.hdfs.useLocalTimeStamp &#x3D; true</span><br></pre></td></tr></table></figure>
+
+<p>可以配置上传的文件名称、类型、压缩类型</p>
+<p>创建新文件的时间间隔或者大小限制</p>
+<p>根据时间动态创建文件夹</p>
 </blockquote>
 
       

@@ -355,6 +355,114 @@
 
 
   
+    <article id="post-Hive与HBase的整合" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/Hive%E4%B8%8EHBase%E7%9A%84%E6%95%B4%E5%90%88/">Hive与Hbase的整合</a>
+    </h1>
+  
+
+        
+        <a href="/2020/Hive%E4%B8%8EHBase%E7%9A%84%E6%95%B4%E5%90%88/" class="archive-article-date">
+  	<time datetime="2020-03-08T06:56:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-08</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="一、保证Hive能够连接到Hbase"><a href="#一、保证Hive能够连接到Hbase" class="headerlink" title="一、保证Hive能够连接到Hbase"></a>一、保证Hive能够连接到Hbase</h2><blockquote>
+<p>通过zookeeper找到到Hbase</p>
+<p>Hive安装目录下的conf文件夹下的hive-site.xml中增加如下配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&lt;property&gt;</span><br><span class="line">&lt;name&gt;hbase.zookeeper.quorum&lt;&#x2F;name&gt;</span><br><span class="line">&lt;value&gt;node02,node03,node04&lt;&#x2F;value&gt;</span><br><span class="line">&gt;&lt;&#x2F;property&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h2 id="二、Hive中新建与Hbase关联映射的表-内部表"><a href="#二、Hive中新建与Hbase关联映射的表-内部表" class="headerlink" title="二、Hive中新建与Hbase关联映射的表(内部表)"></a>二、Hive中新建与Hbase关联映射的表(内部表)</h2><blockquote>
+<p>1、执行脚本后Hbase中也会生成该表    <code>Hive官网中提供的脚本</code></p>
+<p><img src="/2020/Hive%E4%B8%8EHBase%E7%9A%84%E6%95%B4%E5%90%88/image-20200507150611627.png" alt="image-20200507150611627"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;CREATE TABLE hbase_table_1(key int, value string) </span><br><span class="line">&gt;STORED BY &#39;org.apache.hadoop.hive.hbase.HBaseStorageHandler&#39;</span><br><span class="line">&gt;WITH SERDEPROPERTIES (&quot;hbase.columns.mapping&quot; &#x3D; &quot;:key,cf1:val&quot;)</span><br><span class="line">&gt;TBLPROPERTIES (&quot;hbase.table.name&quot; &#x3D; &quot;xyz&quot;, &quot;hbase.mapred.output.outputtable&quot; &#x3D; &quot;xyz&quot;);</span><br></pre></td></tr></table></figure>
+
+<p>2、Hive中向表中插入数据</p>
+<p><img src="/2020/Hive%E4%B8%8EHBase%E7%9A%84%E6%95%B4%E5%90%88/image-20200507151709128.png" alt="image-20200507151709128"></p>
+</blockquote>
+<p>3、Hbase中查询数据，在Hive、Hbase的表中都有数据，</p>
+<p>但是HDFS中Hive对应的文件夹中没有数据，数据储存在HDFS中Hbase对应的文件中</p>
+<p><img src="/2020/Hive%E4%B8%8EHBase%E7%9A%84%E6%95%B4%E5%90%88/image-20200507151909776.png" alt="image-20200507151909776"></p>
+<p>4、Hbase里向表中插入不同列的数据，插入相同列时Hive能查询到数据</p>
+<p><img src="/2020/Hive%E4%B8%8EHBase%E7%9A%84%E6%95%B4%E5%90%88/image-20200507152321493.png" alt="image-20200507152321493"></p>
+<p>5、Hive中查询表数据，没有Hbase中新增的数据，因为只映射了val列，并没有映射name列</p>
+<p><img src="/2020/Hive%E4%B8%8EHBase%E7%9A%84%E6%95%B4%E5%90%88/image-20200507152354757.png" alt="image-20200507152354757"></p>
+<h2 id="三、Hive中新建与Hbase关联映射的表-内部表"><a href="#三、Hive中新建与Hbase关联映射的表-内部表" class="headerlink" title="三、Hive中新建与Hbase关联映射的表(内部表)"></a>三、Hive中新建与Hbase关联映射的表(内部表)</h2><blockquote>
+<p>1、Hive创建外部表时Hbase必须已经存在此表</p>
+<p>Hbase中创建表</p>
+<p><img src="/2020/Hive%E4%B8%8EHBase%E7%9A%84%E6%95%B4%E5%90%88/image-20200507153607051.png" alt="image-20200507153607051"></p>
+<p>2、Hive中创建外部表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;CREATE EXTERNAL TABLE hbase_table_2(key int, value string) </span><br><span class="line">&gt;STORED BY &#39;org.apache.hadoop.hive.hbase.HBaseStorageHandler&#39;</span><br><span class="line">&gt;WITH SERDEPROPERTIES (&quot;hbase.columns.mapping&quot; &#x3D; &quot;cf1:val&quot;)</span><br><span class="line">&gt;TBLPROPERTIES(&quot;hbase.table.name&quot; &#x3D; &quot;some&quot;, &quot;hbase.mapred.output.outputtable&quot; &#x3D; &quot;some&quot;);</span><br></pre></td></tr></table></figure>
+
+
+
+<p>总结：</p>
+<p>向Hbase中插入数据时Hive中也能查询到，这些与内部表一样</p>
+<p>不管是内部表还是外部表，最终数据都保存在Hbase中</p>
+<p>什么时候使用外部表？</p>
+<p>如果Hbase中已经存在了表之后，而又要Hive映射Hbase此表，就需要Hive创建外部表</p>
+</blockquote>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/大数据学习//" class="article-tag-list-link color1">大数据学习</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/Hive%E4%B8%8EHBase%E7%9A%84%E6%95%B4%E5%90%88/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-计算机底层随笔" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -591,6 +699,7 @@
       
         <h2 id="Flume的介绍"><a href="#Flume的介绍" class="headerlink" title="Flume的介绍"></a>Flume的介绍</h2><blockquote>
 <p>日志收集系统,可以将各种来源的日志收集到HDFS或者Hbase中</p>
+<p>更多配置参考官网</p>
 <ol>
 <li>Flume的使用其实就是Source、Channel、Sink的配置</li>
 <li>Agent=Source+Channel+Sink，其实agent就是Flume的配置文件</li>
@@ -600,27 +709,7 @@
 <p>三大组件：Source、Channel、sink</p>
 <p><img src="/2020/Flume%E7%9A%84%E4%BD%BF%E7%94%A8/1326937-20190610172619436-307927136.png" alt="img"></p>
 </blockquote>
-<h2 id="Flume的安装与配置"><a href="#Flume的安装与配置" class="headerlink" title="Flume的安装与配置"></a>Flume的安装与配置</h2><blockquote>
-<p>1、解压后修改  conf目录下的 flume-env.sh 文件中的JAVA_HOME</p>
-<p><img src="/2020/Flume%E7%9A%84%E4%BD%BF%E7%94%A8/image-20200507001023714.png" alt="image-20200507001023714"></p>
-<p>2、增加节点配置文件 option（名称任意）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"># example.conf: A single-node Flume configuration</span><br><span class="line"></span><br><span class="line"># Name the components on this agent</span><br><span class="line">#给三大组件起名</span><br><span class="line">a1.sources &#x3D; r1 </span><br><span class="line">a1.sinks &#x3D; k1</span><br><span class="line">a1.channels &#x3D; c1</span><br><span class="line"></span><br><span class="line"># Describe&#x2F;configure the source</span><br><span class="line">#定义源的类型</span><br><span class="line">a1.sources.r1.type &#x3D; netcat</span><br><span class="line">a1.sources.r1.bind &#x3D; node02</span><br><span class="line">a1.sources.r1.port &#x3D; 44444</span><br><span class="line"></span><br><span class="line"># Describe the sink</span><br><span class="line">#定义输出的类型</span><br><span class="line">a1.sinks.k1.type &#x3D; logger</span><br><span class="line"></span><br><span class="line"># Use a channel which buffers events in memory</span><br><span class="line">#管道配置设置</span><br><span class="line">a1.channels.c1.type &#x3D; memory</span><br><span class="line">a1.channels.c1.capacity &#x3D; 1000</span><br><span class="line">a1.channels.c1.transactionCapacity &#x3D; 100</span><br><span class="line"></span><br><span class="line"># Bind the source and sink to the channel</span><br><span class="line"># 将三大组件关联起来</span><br><span class="line">a1.sources.r1.channels &#x3D; c1</span><br><span class="line">a1.sinks.k1.channel &#x3D; c1</span><br><span class="line"></span><br><span class="line">#启动命令  --conf-file option 指定自己添加的配置文件</span><br><span class="line">#--name a1 给节点agent取名，与文件中相同，都为a1</span><br><span class="line">flume-ng agent --conf-file option --name a1 -Dflume.root.logger&#x3D;INFO,console</span><br></pre></td></tr></table></figure>
-</blockquote>
-<h2 id="Flume-的启动"><a href="#Flume-的启动" class="headerlink" title="Flume 的启动"></a>Flume 的启动</h2><blockquote>
-<p>根据环境变量Flume可以找到Hadoop、Hbase、Hive的目录</p>
-<p><img src="/2020/Flume%E7%9A%84%E4%BD%BF%E7%94%A8/image-20200507002236282.png" alt="image-20200507002236282"></p>
-</blockquote>
-<h2 id="两个Flume串联"><a href="#两个Flume串联" class="headerlink" title="两个Flume串联"></a>两个Flume串联</h2><blockquote>
-<p>左边的flume中的配置需要修改输出相关配置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;# Describe the sink</span><br><span class="line">&gt;a1.sinks.k1.type &#x3D; avro</span><br><span class="line">&gt;a1.sinks.k1.hostname &#x3D; node03</span><br><span class="line">&gt;a1.sinks.k1.port &#x3D; 10086</span><br></pre></td></tr></table></figure>
-
-<p>右边的flume中的配置需要修改源相关配置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;# Describe&#x2F;configure the source</span><br><span class="line">&gt;a1.sources.r1.type &#x3D; avro</span><br><span class="line">&gt;a1.sources.r1.bind &#x3D; node03</span><br><span class="line">&gt;a1.sources.r1.port &#x3D; 10086</span><br></pre></td></tr></table></figure>
-
-<p>注意：绑定的主机与端口号要一致</p>
-<p><img src="/2020/Flume%E7%9A%84%E4%BD%BF%E7%94%A8/1326937-20190610172656614-941910746.png" alt="img"></p>
-</blockquote>
-
+        
       
 
       
